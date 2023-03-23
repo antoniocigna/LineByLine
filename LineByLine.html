@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<!-- saved from url=(0113)file:///D:/ANTONIO/F_G/GITHUB___varie/_2023_03MARZO_04/tentativoTEXT_ONLY_ClipByClip/cbc_builder/cbc_Builder.html -->
+<html lang="en">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="description" content="Clip By CLip - A tool to practice language comprehension by playing video/audio a clip at time with/without subtitles">
+      <meta name="license" content="license MIT: you can share and modify the software, but you must include the license file">
+      <meta name="author" content="Antonio Cigna">
+      <meta name="date" content="2021-2022">
+      <meta name="keywords" content="ClipByClip, language, learning, tool, comprehension, clip, subtitle, srt, html, css, javascript">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Line By Line - Antonio Cigna 2023</title>
+      <link href="./cbc_common/cbc_0_style.css" rel="stylesheet">
+      <style> 
+         .td_c1{border:0px solid green; text-align:center;} 
+         .td_c2 {border:0px solid green; left-padding:0; left-margin:0;text-align:left;vertical-align:middle;font-size:0.8em;} 
+         .timerow1 {
+         width:1em;
+         font-size:0.6em;
+         color:black;
+         padding:0 0.5em; 
+         vertical-align:top;
+         text-align:center;
+         }
+         .timerow2 {
+         width:4em;
+         font-size:0.6em;
+         color:black;
+         padding:0 0.2em; 	
+         vertical-align:middle;
+         text-align:center;
+         }
+         .arrow12{
+         width:1em;text-align:right; color:black; font-size:0.5em;
+         }
+         .playBut1{
+         width:1em;padding:0;text-align:center;
+         }
+         .max_slider {
+         padding:0 2px;text-align:right; color:black; font-size:0.5em;vertical-align:middle;	
+         }	
+         .input_delta_slider  {
+         width:4em;display:inline;text-align:right;
+         }
+         .beg_end_slider {
+         border:0px solid black;
+         font-size:0.5em; text-align:center;  vertical-align:bottom; color:black; margin:0;padding:0;
+         }	
+         .big{
+         font-size:1.2em;
+         }
+         .speed_numR1 {
+         width:24%; text-align:right;font-weight:bold;font-size:1em;justify-content:right;align-item:right;
+         vertical-align:top;
+         }
+         .speed_numR2 {
+         width:1em; transform: rotate(-270deg);text-align:center; 
+         }
+         .speed_num {
+         width:25%; text-align:center;font-weight:bold;font-size:1em; 
+         }
+         .td_c1{border:0px solid green; text-align:center;} 
+         .td_c2 {border:0px solid green; left-padding:0; left-margin:0;text-align:left;vertical-align:middle;font-size:0.8em;} 
+         .msg {  /* used only to be selected by classname*/ }
+         .header_1 {vertical-align: bottom; color:black; font-weight:bold;}
+         .fsize1 {font-size:1em;}     
+         .toricFrame {
+         border: 1px solid black;
+         color: black;
+         background-color:lightgrey;
+         text-align: center;
+         vertical-align: middle;   
+         margin: auto;
+         border-radius: 1.4em;
+         }
+         .h_buttonWhite {
+         background-color: white;
+         border: 2px solid black;
+         font-weight: bold; 
+         font-size:1.0em;
+         color: black;
+         text-align:center;
+         vertical-align:middle;
+         padding-left:0.3em;
+         padding-right:0.3em;   
+         border-radius: 1.4em;
+         box-shadow: 0.5em 0.5em 0.5em rgba(0,0,0,0.6);  
+         width:100%;
+         height:3.0em;
+         }
+         .h_buttonWhite:hover {
+         background-color: orange;
+         }
+         .h_backcolor{
+         /*
+         padding: 0;
+         background-color:lightgrey;
+         */
+         }
+         .h_backcolor2{
+         /*
+         padding:0; margin:0;border:0; 
+         background-color:grey;
+         */
+         }
+         .c_voice {
+         text-align:center;
+         padding:0 0.2em;
+         min-width:1.5em;
+         }
+         .c_voice_m1 {
+         text-align:center;
+         padding:0 0.2em;
+         min-width:1.5em;
+         border:2px solid black;
+         }
+		 .c_m2 {			 
+			 padding:0.4em 0;
+			 background-color:lightblue;
+         }
+         .c_m1 {
+         /*border:2px solid black;*/
+		  border-bottom:1px solid black;
+		 padding:0; margin:0;
+		 background-color:grey;
+         }
+		  .c_m0 {
+			min-width:2em;
+         }
+         body,
+         html {
+         height: 100%;
+         width: 100%;
+         }
+         .onePage1{
+         width:   calc(100vw - 30px);
+         height:   calc(100vh - 30px); 
+         border:5px solid black;
+         }
+         .msg {  /* used only to be selected by classname*/ }		 
+		.speedTD{
+			margin:-0.2em; 
+		}	
+		.speedTD2{ 
+			margin:0 -0.0em 0 -0.5em;  
+		}	
+		.divRowText {
+			width: 100%; 
+			/*height:1.3em;*/
+			/*resize: vertical;*/
+			overflow: auto;
+		}
+		.twoButts{
+			line-height:0.7; 
+		}
+      </style>
+   </head>
+   <body>
+		 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
+	  <div id="page0" class="onePage1"  style="display:block; border:5px solid blue;">
+         	<div id="id_h0" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
+            <br>
+            <span  id="id_h1" style="font-size:1.2em;">Line By Line</span>
+            <br> <span id="id_h11" style="font-size:0.6em;">Antonio Cigna 2023</span>
+            <div style="font-size:0.8em;" ><br>
+               <span id="m014" class="msg"><br>per migliorare la comprensione delle lingue straniere</span><br>
+               <br>
+               <span id="m015" class="msg">
+               by listening to a text <br>read line by line, word by word
+               </span>
+               <br><br>
+            </div>
+         </div>
+         <br>
+		 
+		 <div id="id_div0" style="display:flex; justify-content:center;  width:100%;border:0 solid red; ">
+			
+			<div style="width:70%;border:0px solid red;text-align:left;">
+				<div style="border:0px solid black;">
+				   <div style="width:100%;border:0px solid black;text-align:center;">
+					
+					  <span id="m016" class="msg">Incolla qui sotto il testo in lingua originale
+					  </span>
+				   </div>	
+				   	<br>
+				   <div style="display:flex; justify:center; width:100%;border:0px solid black;text-align:center;">
+					  <div style="text-align:left;">						 
+							<textarea id="inp_txtOrig00" style="display:block;border:1px solid green;font-family:monospace;" 
+								rows="20" cols="100" >
+							</textarea>
+							<textarea style="border:1px solid green;font-family:monospace;" 
+								id="inp_txtScale00" rows="3" cols="100" readonly>
+							</textarea>
+					  </div>
+				   </div>               
+				</div>
+				<br>
+				<br>
+				<div style="width:70%;border:0px solid black;text-align:left;">
+					<div> 
+						<span id=123" class="msg">specifica la lunghezza massima delle righe</span>  
+						<br>
+						<input id="id_maxLeng" type="number" value="70" max="999" style="width:3em;text-align:right;">
+					</div>
+					<br>
+					<div><button id="id1but1" onclick="onclick_getOrigTxt()">spezza le righe troppo lunghe</button></div>
+				</div>					
+			</div>				
+         </div>	 
+	  </div>
+	  
+	   <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
+      <div id="page1" class="onePage1" style="display:block;  border:5px solid blue;">
+         <div id="id_h0" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
+            <br>
+            <span  id="id_h1" style="font-size:1.2em;">Line By Line</span>
+            <br> <span id="id_h11" style="font-size:0.6em;">Antonio Cigna 2023</span>
+            <div style="font-size:0.8em;" ><br>
+               <span id="m014" class="msg"><br>per migliorare la comprensione delle lingue straniere</span><br>
+               <br>
+               <span id="m015" class="msg">
+               by listening to a text <br>read line by line, word by word
+               </span>
+               <br><br>
+            </div>
+         </div>
+         <br>
+         <div  style="text-align:center;width:100%;">
+            <b><span id="m001">Seleziona una voce</span></b>	
+            <select id="id_voices" class="form-select bg-secondary text-light" onchange="get_oneLangVoice(this)">    
+            </select>
+            <div style="display:none">
+               <span id="id_myLang"></span>
+               <br>
+               <span id="id_lang2"></span>
+               <br>
+               <span id="m002">language</span>
+               <span id="m003">voice</span>					  
+            </div>
+			
+			<div id="id_ext_language" style="margin-top:0.5em;"></div>
+         </div>
+         <br><br>    
+         <table id="id_table16" style="width:100%;border:1% solid red; border-collapse: collapse;">
+            <tr>
+               <th style="width:50%;border:0px solid black;text-align:center;">
+                  <span id="m016x class="msg">testo in lingua originale
+                  </span>
+               </th>
+               <th style="width:50%;border:0px solid black;text-align:center;">
+                  <span id="m017x" class="msg">Incolla qui sotto la traduzione automatica del testo</span>&nbsp;
+                  <span id="m018x" class="msg" style="font-size:0.8em;">(per ignorare la traduzione scrivi 3 puntini ...)</span>						
+               </th>
+            </tr>
+            <tr>
+               <td style="width:50%;border:0px solid black;text-align:center;">
+                  <div>
+                    <div id="inpFileTypeOrig" style="display:none;"></div>
+                    <textarea style="border:4px solid green;width:100%;" 
+                        id="txt_pagOrig" rows="20" cols="150">
+					</textarea>
+				 
+                  </div>
+               </td>
+               <td style="width:50%;border:0px solid black;text-align:center;">
+                  <div>
+                     <div id="inpFileTypeTran" style="display:none;"></div>
+                     <textarea style="display:block;border:1px solid green;width:100%;" 
+                        id="txt_pagTrad" rows="20" cols="150"></textarea>
+                  </div>
+               </td>
+            </tr>
+         </table>
+         <br><br>
+         <div>
+            <button id="match1" class="button" onclick='onclick_getInput( document.getElementById("page1"))' 
+               style="width:20rem;"><span id="m004" class="msg">continue</span>
+            </button>
+            <div id="id_msg16" style="display:none;font-size:1em;text-align:center;"></div>
+         </div>
+      </div>
+	  <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
+	  <div id="page02" class="onePage1"  style="display:none; border:5px solid blue;">
+         		
+	  </div>
+	  
+      <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
+      <div id="page2" class="onePage1"  style="display:none; border:5px solid blue;">
+         		
+         <div id="id_practice" style="width:100%;height:100%; border:0px solid blue;margin:0;padding:0">
+            <div  style="display:flex;justify-content: center;  width:100%;height:96%;
+				text-align:left;  
+				border:0px solid violet;">
+               <!-- 
+			   <div id="id_filler" style="width:0px;">&nbsp;</div>
+			   -->
+               <div id="id_section_row" style="margin: auto;text-align:center;   margin:0;
+                  display:flex;justify-content: center;   overflow:auto;   height:100%; width:85%;				  
+                 border:0px solid blue; ">
+				<div >
+				<table id="id_tabSub" class="orig_txt" 
+                     style="display: block; text-align: left; vertical-align: top;  border:0px solid red; 
+					 width:100%;
+                     background-color: rgb(243, 200, 157);">
+                     <colgroup>
+                        <col id="col_1_2_arrow"      span="2">
+                        <col id="col_3_showHideOrig" span="1">
+                        <col id="col_4_showHideTran" span="1">
+                        <col id="col_5_splitwords"   span="1">
+                        <col id="col_6_subText"      span="1">                       
+                        <col id="col_ttsWordPause"   span="1">
+                        <col id="col_ttsVoice0"      span="1">
+                        <col id="col_ttsInf"         span="1">						
+                        <col id="col_numSub"         span="1">
+                     </colgroup>
+                     <thead id="id_tabSub_th">
+							<!--
+							<tr id="id_tr_row_zero" style="background-color:lightgrey; ">
+								<th colspan="6"></td>
+								<th  id="id_voxDisplay" colspan="7" class="msg header_1" ></th>   ??anto2??
+							</tr>
+							-->
+                        <tr id="id_tr_row_zero" style="background-color:lightgrey; ">
+                           <th id="m005" class="msg header_1" >selez. inizio</th>
+                           <th id="m006" class="msg header_1" >selez. fine</th>
+                           <th id="m007" class="msg header_1" >mostra / nascondi<br>sottotitoli</th>
+                           <th id="m008" class="msg header_1" >mostra / nascondi<br>traduzione</th>
+                           <th id="m013" class="msg header_1" >word<br>by<br>word</th>
+                           <th id="id_h_textCol" style="text-align:center;  vertical-align:bottom;        color:black;font-weight:bold;">
+                              <!-- the content of the line below because is used to fix the column width --> 
+                              <div id="id_h_hidden" style="visibility:hidden; font-family:monospace;
+									width:100%;">
+                                 Bonsoir, signori, dame, signore e signori, buona sera, signora e signori.
+                              </div>
+                              <div id="id_h_visible" class="header_1">
+                                 <span id="m121" class="msg header_1 fsize1" style="font-size:2em;">testo111</span>
+                              </div>
+                           </th>
+                           
+                           
+						   <th id="m122" class="msg header_1">Play</th>                          
+                           <th id="m123" class="msg header_1">Play a new voice</th>    
+						   <th id="m124" class="msg header_1">Play pause between words</th>
+                           <th id="m125" class="msg header_1 ">N.</th>							
+                        </tr>
+                     </thead>
+                     <tbody id="id_tabSub_tbody">
+                     </tbody>
+                  </table>
+				  
+                  <!-- end of id_tabSub --> 
+					</div>
+               </div>
+			 			  
+				<div style="border:0px solid blue;margin:0;width:15%;  ">
+					<div>	
+							
+							<div id="id_voxLangDisplay" style="margin-top:0.5em;"></div>
+							
+						<table style="font-size:0.5em;width:100;">	
+					  <tr  style="">
+						 <td id="id_906" style="width:2em;padding-top:3em; padding-bottom:3em;"><span id="m126" class ="msg">Tono</span></td>
+						 <td style="width:0.5em;padding:0;padding-top:3em; padding-bottom:3em;">1</td>
+						 <td style="width:0.5em;padding:0;padding-top:3em; padding-bottom:3em;">
+							<input type="range" min="0.0" max="2" value="1" step="0.1" oninput="onclick_changePitch(this)">
+						 </td>
+						</tr>
+					
+						<tr  style="padding-top:3em; padding-bottom:3em;">
+						 <td id="id_905" style="width:2em;padding-top:3em; padding-bottom:3em;"><span id="m127" class ="msg">Velocita</span></td>
+						 <td style="width:0.5em;padding:0;padding-top:3em; padding-bottom:3em;">1</td>
+						 <td style="width:0.5em;padding:0;padding-top:3em; padding-bottom:3em;">
+							<input type="range" min="0.0" max="2" value="1" step="0.25" oninput="onclick_changeRate(this)">
+						 </td>
+					  </tr>
+					 </table>
+					 </div>
+					 <div style="height:20%;" > &nbsp; </div>
+					<div>		  
+						<button id="id_sp_pause"  onclick="onclick_speech_pause()"><span id="m128" class ="msg">Pause</span></button>
+						<button id="id_sp_resume" onclick="onclick_speech_resume()"><span id="m129" class ="msg">Resume</span></button>
+						<br><br><br>
+						<button id="id_sp_cancel" onclick="onclick_speech_cancel()"><span id="m130" class ="msg">Cancel</span></button>
+					</div>					
+					
+				</div>
+            </div>
+			<button onclick='onclick_getInput( document.getElementById("page2"))'><span id="m131" class="msg">Vai</span></button>  
+         </div>
+         <!-- end of practice -->
+      
+      </div>
+      <!--  end of page2 -->
+	  
+	  
+	  
+      <div style="display:none;">
+         <div>
+            <button id="id_ctl_playpause"  style="border:0;background: rgba(125, 125, 0, 0)" 
+               onclick="onclick_controls_emul_play(this)">
+            <span style="display: block; font-size: 2em; height: 1.4em;">⏵</span>
+            <span style="display: none; font-size: 2em; height: 1.4em;">⏸</span>
+            </button>
+         </div>
+      </div>
+      <div id="id_msg_depot" style="display:none">  
+         <span id="m100">VVm100 To synchronize subtitles with speech   ZVm100></span>
+         <span id="m101">VVm101 Select a group of subtitle lines ZVm101></span>
+         <span id="m102">VVm102 Practice<br>by listening and reading a few subtitle lines at time ZVm102></span>
+         <span id="m103">VVm103 Practice<br>by listening<br>only a few seconds at a time ZVm103></span>
+         <span id="m104">VVm104 Practice<br>by listening (synthetic voice) and reading  ZVm104></span>
+         <span id="m105">VVm105 Rate ZVm105></span>   
+         <span id="m106">VVm106 end time ZVm106></span>
+         <span id="m107">VVm107 seconds ZVm107></span>
+         <span id="m108">VVm108 since the <br>second ZVm108></span>
+         <span id="m109">VVm109 per <br>second ZVm109></span>
+         <span id="m110">VVm110 text ZVm110></span>
+         <span id="m111">VVm111 Subtitles ZVm111</span>			
+         <span id="m112">VVm112 Press the button of the line that ends with the last word spoken ZVm112></span>
+         <span id="m113">VVm113 subtitle lines ZVm113></span>
+         <span id="m114">VVm114 subtitle line ZVm114></span>
+         <span id="m115">VVm115 show all subtitles ZVm115></span>									
+         <span id="m116">VVm116 hide all subtitles ZVm116></span>  
+         <span id="m117">VVm117 increased by ZVm118></span>
+         <span id="m118">VVm118 decreased by ZVm118></span>
+         <span id="m119">VVm119 Bilingual Text ZVm119></span> 
+		 <span id="m120">spoken in</span>	
+      </div>
+      <script>
+         var testDefault = false;  
+         //var testDefault = true; 
+      </script>
+      <script src="./cbc_common/cbc_MESSAGES.msg"        ></script>
+      <script>
+         function custom_message_change(txt1) {
+         return txt1; 
+         }         
+      </script>	
+      <script src="./cbc_common/cbc_MESSAGE_manager.jstxt"  onload="messageMain('V')"></script> 	  
+      <script src="./cbc_common/cbc_VOICES_getVoices.jstxt"   ></script>
+	  
+	  <script src="./LineByLine_script/input_prova.txt"         ></script>
+	  
+      <script src="./LineByLine_script/lbl_script_0_def.jstxt"           ></script>
+      <script src="./LineByLine_script/lbl_script_2_fill_voices.jstxt"   ></script>
+      <script src="./LineByLine_script/lbl_script_3_text_to_speech.jstxt"></script>
+	  <script src="./LineByLine_script/lbl_script_4_breakText.jstxt"     ></script>	  
+      <script src="./LineByLine_script/lbl_script_5.jstxt"               ></script>
+      <script src="./LineByLine_script/lbl_script_8_TTS_REPLACE.jstxt"   ></script>
+      <script src="./LineByLine_script/lbl_script_9_exec.jstxt"          ></script>
+      <script src="./LineByLine_script/lbl_script_1_getText.jstxt"       ></script>   
+     
+   </body>
+</html>

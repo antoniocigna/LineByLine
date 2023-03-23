@@ -1,0 +1,2120 @@
+"use strict";
+/*  
+ClipByClip: A tool to practice language comprehension
+Antonio Cigna 2021/2022
+license MIT: you can share and modify the software, but you must include the license file 
+*/
+/* jshint strict: true */
+/* jshint esversion: 6 */
+/* jshint undef: true, unused: true */
+//----------------------------------------------
+var currScript = document.currentScript.src; var bar1 = currScript.lastIndexOf("\\");var bar2 = currScript.lastIndexOf("/"); 
+console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) )) ;	
+//----------------------------------------------------------------------------------------
+//
+/***
+// 52  undefined 
+var SpeechSynthesisUtterance; 				// not defined in script_0.def0
+var ele_tr_idPref			; 				// not defined in script_0.def0
+var fun_copyHeaderSelected;	 				// not defined in script_0.def0
+var end_speech;					 			// not defined in script_0.def0
+var fun_scroll_tr_toTop;  					// not defined in script_0.def0
+var sw_let_old_newline; 	 				// not defined in script_0.def0
+var fun_set_localStorage_item_from_vars;	// not defined in script_0.def0
+var TTS_LOOP_begix;				 	// defined in script_0_def0
+var	openbook_symb	; 				// defined in script_0_def0
+var	closedbook_symb	; 				// defined in script_0_def0
+var	speakinghead_symb	; 			// defined in script_0_def0
+var	selected_numVoices	; 			// defined in script_0_def0
+var	pause_symb	; 					// defined in script_0_def0
+var	word_fromIxToIxLimit	; 		// defined in script_0_def0
+var	begix	; 						// defined in script_0_def0
+var endix; 							// defined in script_0_def0
+var	word_fromIxToIxButtonElement;	// defined in script_0_def0
+var	fromIxToIxLimit	; 				// defined in script_0_def0
+var	fromIxToIxButtonElement	; 		// defined in script_0_def0
+var	voice_toUpdate_speech	; 		// defined in script_0_def0
+var	speech_rate	; 					// defined in script_0_def0
+var	listVox	; 						// defined in script_0_def0
+var	sw_tts	; 						// defined in script_0_def0
+var	TTS_LOOP_swLoop	; 				// defined in script_0_def0
+var	isPlaying	; 					// defined in script_0_def0
+var	ele_last_play	; 				// defined in script_0_def0
+var	clipFromRow_min	; 				// defined in script_0_def0
+var	line_list_o_from1	; 			// defined in script_0_def0
+var	word_last_BoldRow	; 			// defined in script_0_def0
+var	sw_tts2	; 						// defined in script_0_def0
+var	last_ele_analWords_id	; 		// defined in script_0_def0
+var	TXT_SPEECH_LENGTH_LIMIT	; 		// defined in script_0_def0
+var	last_rate	; 					// defined in script_0_def0
+var	synth	; 						// defined in script_0_def0
+var	x1_line	; 						// defined in script_0_def0
+var	textLines	; 					// defined in script_0_def0
+var	utteranceList	; 				// defined in script_0_def0
+var	speech	; 						// defined in script_0_def0
+var	sw_pause	; 					// defined in script_0_def0
+var	startTime	; 					// defined in script_0_def0
+var	txt_length	; 					// defined in script_0_def0
+var	voiceList	; 					// defined in script_0_def0
+var	LS_voice_index	;				// defined in script_0_def0
+var	last_blue_cell	; 				// defined in script_0_def0
+var TTS_LOOP_begix; 				// defined in script_0_def0
+var	TTS_LOOP_endix	; 				// defined in script_0_def0
+var	TTS_LOOP_elem	; 				// defined in script_0_def0
+var	ELAPSED_TIME_SPEECH_LIMIT	; 	// defined in script_0_def0
+var	tot_norm_time	; 				// defined in script_0_def0
+var	tot_txt_len	; 					// defined in script_0_def0
+var	tot_norm_mill_char	; 			// defined in script_0_def0
+var	tot_norm_str_leng_limit	; 		// defined in script_0_def0
+var	lastBoldCell	; 				// defined in script_0_def0
+//  ****
+
+// ** funzioni usate altrove 
+****
+var usateAltrove = [
+	update_word_tr_allclip,
+	word_onclick_arrowFromIx,
+	word_onclick_arrowToIx,
+	onclick_playSynthVoice_m1_row,
+	onclick_playSynthVoice_word,
+	onclick_playSynthVoice_m1_word,
+	word_onclick_OneClipRow_showHide_sub,
+	word_onclick_show_row,
+	removeLastEle,
+	onclick_seeWords,
+	test_break_text,
+	onclick_change_voice,
+	onclick_changeRate,
+	onclick_change_synth_rate,
+	onclick_speech_pause,
+	onclick_speech_resume,
+	end_speech_calculation,
+	onclick_playSynthVoice_row,
+	123 ];
+	if (usateAltrove == 122345) console.log("123"); 
+**/
+
+
+/************
+//
+//--------------------------------------------
+//  last before last true/false:  true => (this is a word) /  false => (this is a phrase)
+//  last true/false: true => (this is the "_m1" line) / false => (this is a normal word or a phrase line     
+		
+let word_tr_fant = `
+		<tr id="widtr_§1§_m2"  style="display:none;background-color:lightgrey;height:1.5em;" > 
+			<td></td><td></td><td></td><td></td>
+			§table_voices_m2§
+		</tr> \n 		
+
+		<tr id="widtr_§1§_m1"  class="playBut1" style="display:none;background-color:lightgrey; border-style: inset;">
+			<td class="c_m1"></td>
+			<td class="c_m1"></td>		
+			<td class="playBut1 c_m1"><button class="buttonTD2" id="widb_§1§_m" onclick="word_onclick_OneClipRow_showHide_sub( this, true, false,true,true)">
+				<span style="display:none; font-size:2em;">${openbook_symb}</span>
+				<span style="display:block;font-size:2em;">${closedbook_symb}</span></button>
+			</td>  	
+			<td class="c_m1"></td>
+			§table_voices§
+			
+			</tr> \n  
+	` ; // 		
+
+//-------------------------
+
+let word_tr_allclip = ` 
+		<tr id="widtr_§1§" style="background-color: lightgrey;"> 	
+			<td class="arrow12"><button class="buttonFromToIx" id="wb1_§1§" onclick="word_onclick_arrowFromIx(this, §1§, true, false)">
+				<span 	style="font-size:1em;height:1.4em;">→</span></button>
+			</td>  
+			<td class="arrow12"><button class="buttonFromToIx" id="wb2_§1§" onclick="word_onclick_arrowToIx(  this, §1§, true, false)">
+				<span style="font-size:1em;height:1.4em;">←</span></button>
+			</td>  		
+			<td class="playBut1">
+				<button class="buttonTD2" id="widb_§1§" onclick="word_onclick_show_row( this, §1§, true, false)">
+					<span style="display:none;font-size:2em;height:1.4em;">${openbook_symb}</span> \n
+					<span style="display:block;font-size:2em;height:1.4em;">${closedbook_symb}</span>
+				</button>
+			</td> 		
+			<td style=""> 
+				<div class="suboLine" style="display:block;visibility:hidden;" id="widc_§1§">§4txt§</div>
+				<div style="display:none;" id="widtts_§1§">§ttsWtxt§</div>
+			</td>			
+			§table_voices§			
+			</tr> \n  
+	` ; // end of word_tr_allclip 
+
+***********/
+	
+//-----------------------------
+
+let last_objtxt_to_speak; 
+
+//=============================================
+
+
+//js1_____________________ 
+
+//-------------------------------------------
+function word_build_td_voices() {
+	var selected_numVoices2 = selected_numVoices;   // 1;
+    var str1 = "";
+
+  //var fun1_m1 = '"word_onclick_ClipSub_Play3(     this,   false, true, true,';
+	var fun1_m1 = '"onclick_playSynthVoice_m1_word(this,';
+	
+				
+  //var fun2 = '"word_onclick_OneClipRow_play_Loop3(this,§1§,false,true, false,';
+	//var fun2 = '"onclick_playSynthVoice_word(this,§1§,'; 
+	
+	var fun2 = '"word_onclick_playSynthVoice_row2(this1, §1§,';  //   continue -->   swLoop, isWord, is_m1,swNewVoice) {
+    //------------------	
+
+    var oneVoice1_1 = '\n<td class="c_voice" style="';
+    var oneVoice1_2 = 'background-color:lightblue;';
+    var oneVoice1_31_m1 = '"  ><button class="buttonWhite" onclick=' + fun1_m1;
+    var oneVoice1_32 = '"  ><button class="buttonWhite" onclick=' + fun2;
+
+    var oneVoice1_4 = ')">';
+    var oneVoice2 = `
+		<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span></button></td>
+				`; // do not replace backtick(` `) with quote(") or single_quotation_mark (')
+    str1 = "";
+    var n;
+    var swB = false;
+
+
+	var str_m2 = ""; 
+	var str_m1 = "";
+    for (n = 1; n <= selected_numVoices2; n++) {
+        if (swB) {
+            swB = false;
+            str_m1 += oneVoice1_1.replace("c_voice", "c_voice_m1") + oneVoice1_31_m1 + n + 
+				oneVoice1_4 + n + oneVoice2.trim();
+        } else {
+            swB = true;
+            str_m1 += oneVoice1_1.replace("c_voice", "c_voice_m1") + oneVoice1_2 + oneVoice1_31_m1 + n + 
+				oneVoice1_4 + n + oneVoice2.trim();
+            //document.getElementById("hvox" + n).style.backgroundColor = "lightblue" ;
+        }
+        //document.getElementById("hvox" + n).style.fontSize = "0.5em"; 
+		str_m2 += "<td></td>"; 
+    }
+   
+    var str2 = "";
+    for (n = 1; n <= selected_numVoices2; n++) {
+        if (swB) {
+            swB = false;
+            str2 += oneVoice1_1 + oneVoice1_32 + n + oneVoice1_4 + n + oneVoice2.trim();
+        } else {
+            swB = true;
+            str2 += oneVoice1_1 + oneVoice1_2 + oneVoice1_32 + n + oneVoice1_4 + n + oneVoice2.trim();
+            //document.getElementById("hvox" + n).style.backgroundColor = "lightblue" ;
+        }
+        //document.getElementById("hvox" + n).style.fontSize = "0.5em"; 
+    }
+
+    //document.getElementById("col_voce1").span = selected_numVoices; 
+    /**
+    for(n=selected_numVoices+1; n <=6; n++) {  // all of them are defined as display table-column 
+    	document.getElementById("hvox" + n).style.display="none"; 
+    }
+    **/
+
+    //str1 =  voice_col_tr_td;
+
+
+    return [str_m2, str_m1, str2];
+
+} // end of word_build_td_voices()
+
+//-------------------------------
+function update_word_tr_allclip() {
+
+	word_tr_allclip =  "\n" + prototype_word_tr_m2_tts + "\n" + prototype_word_tr_m1_tts + "\n" + prototype_word_tr_tts; 
+	
+	//word_tr_allclip =  "\n" + prototype_word_tr_m1_tts + "\n" + prototype_word_tr_tts + "\n" + prototype_word_tr_m2_tts ; 
+} // end of update_word_tr_allclip()
+
+//-------------------------
+function TOGLIupdate_word_tr_allclip() {
+	
+	var td1_m2, td1_m1, td2;
+	[td1_m2, td1_m1, td2] = word_build_td_voices();
+		
+	word_tr_fant    = word_tr_fant.trim().replaceAll("§table_voices_m2§",td1_m2).replaceAll("§table_voices§",td1_m1);  
+	word_tr_allclip = word_tr_allclip.trim().replaceAll("§table_voices§",td2);  
+	word_tr_allclip = word_tr_fant           + word_tr_allclip;
+		
+	word_tr_allclip = word_tr_allclip.replaceAll("§pause§", pause_symb);
+	
+} // end of update_word_tr_allclip()
+// ===================================================================
+function spezzaRiga2( orig_riga, tts_riga) {
+
+	
+	
+	var endix2 = -1;
+	
+	
+
+	var orig_riga2 = orig_riga.replaceAll(". ",". §").replaceAll("! ","! §").replaceAll("? ","? §").replaceAll("; ","; §").
+			replaceAll(": ",": §").replaceAll(", ",", §").replaceAll(" "," §");
+
+	if (tts_riga == "") tts_riga = orig_riga; 
+	
+	var tts_riga2 = tts_riga.replaceAll(". ",". §").replaceAll("! ","! §").replaceAll("? ","? §").replaceAll("; ","; §").
+			replaceAll(": ",": §").replaceAll(", ",", §").replaceAll(" "," §");		
+	
+	//console.log("\tspezzaRiga2( orig_riga=" + orig_riga + "\n\t\ttts_riga=" + tts_riga); 
+	
+	var listaParole=[];
+	var listaParo_tts=[];
+	var list1 = orig_riga2.split("§"); 
+	var list2 = tts_riga2.split("§"); 
+	
+	//console.log( list1.length + " " + list2.length); 
+	
+	
+    if (list2.length != list1.length) list2 = orig_riga2.split("§"); 	
+	
+	for(var f=0; f < list1.length; f++) {
+		if (list1[f].trim() != "") {
+			listaParole.push(   list1[f] );
+			listaParo_tts.push( list2[f] );
+		}	
+	} 
+	
+	
+	var parola1, paro_tts ;	
+	
+	var frase_showTxt = '<table style="border:0px solid red;width:100%;margin-top:1em;"> \n'; 
+	/**
+	var optionRatePitch = `
+					<table style="font-size:0.5em;">         		
+				 <tr>
+					<td id="id_905" style="width:2em;padding:0;">§rate§</td>
+					<td style="width:0.5em;padding:0;">1</td>
+					<td style="width:0.5em;padding:0;">
+					<input  id="id_rate" type="range" min="0.0" max="2" value="1" step="0.5" oninput="onclick_changeRate(this)">
+					</td>				
+				 </tr>
+			</table>
+				` ;//  	
+	optionRatePitch = optionRatePitch.replace("§rate§", document.getElementById("m105").innerHTML); 
+	***
+	
+	frase_showTxt += '<tr>'  + '<td></td><td></td><td></td><td>' +
+			 '<td colspan="' +listaParole.length + '">' + 
+			 optionRatePitch +			 
+			 '</td><td></td></tr>\n'; 
+	
+	****
+	 id="widc_§1§">§4txt§</div>	
+	 id="widtts_§1§">§ttsWtxt§</div>	
+	***	
+	
+	***/
+	endix2 =  listaParole.length;
+
+	for (let z3 = 0; z3 < listaParole.length; z3++) {
+		parola1 = listaParole[z3];  
+		paro_tts= listaParo_tts[z3];  
+		let rowclip = word_tr_allclip.replaceAll("§1§", z3).replaceAll("§4txt§", parola1).replaceAll("§ttsWtxt§", paro_tts);				
+		frase_showTxt += rowclip + "\n";
+	} // end of for z3
+
+	return frase_showTxt += '</table>\n' ;  
+	
+} //  end of  spezzaRiga2()
+
+//--------------------------------------------
+function TOGLIspezzaRiga2( orig_riga, tts_riga) {
+	
+	
+	var endix2 = -1;
+	
+	
+
+	var orig_riga2 = orig_riga.replaceAll(". ",". §").replaceAll("! ","! §").replaceAll("? ","? §").replaceAll("; ","; §").
+			replaceAll(": ",": §").replaceAll(", ",", §").replaceAll(" "," §");
+
+	if (tts_riga == "") tts_riga = orig_riga; 
+	
+	var tts_riga2 = tts_riga.replaceAll(". ",". §").replaceAll("! ","! §").replaceAll("? ","? §").replaceAll("; ","; §").
+			replaceAll(": ",": §").replaceAll(", ",", §").replaceAll(" "," §");		
+	
+	
+	
+	var listaParole=[];
+	var listaParo_tts=[];
+	var list1 = orig_riga2.split("§"); 
+	var list2 = tts_riga2.split("§"); 
+	console.log( list1.length + " " + list2.length); 
+	
+	
+    if (list2.length != list1.length) list2 = orig_riga2.split("§"); 	
+	
+	for(var f=0; f < list1.length; f++) {
+		if (list1[f].trim() != "") {
+			listaParole.push(   list1[f] );
+			listaParo_tts.push( list2[f] );
+		}	
+	} 
+	
+	
+	var parola1, paro_tts ;	
+	
+	var frase_showTxt = '<table style="border:2px solid red;width:100%;"> \n'; 
+	
+	var optionRatePitch = `
+					<table style="font-size:0.5em;">         		
+				 <tr>
+					<td id="id_905" style="width:2em;padding:0;">§rate§</td>
+					<td style="width:0.5em;padding:0;">1</td>
+					<td style="width:0.5em;padding:0;">
+					<input  id="id_rate" type="range" min="0.0" max="2" value="1" step="0.5" oninput="onclick_changeRate(this)">
+					</td>				
+				 </tr>
+			</table>
+				` ;//  	
+	optionRatePitch = optionRatePitch.replace("§rate§", document.getElementById("m105").innerHTML); 
+	
+	frase_showTxt += '<tr>'  + '<td></td><td></td><td></td><td>' +
+			 '<td colspan="' +listaParole.length + '">' + 
+			 optionRatePitch +			 
+			 '</td><td></td></tr>\n'; 
+	
+	/****
+	 id="widc_§1§">§4txt§</div>	
+	 id="widtts_§1§">§ttsWtxt§</div>	
+	***/	
+	endix2 =  listaParole.length;
+
+	for (let z3 = 0; z3 < listaParole.length; z3++) {
+		parola1 = listaParole[z3];  
+		paro_tts= listaParo_tts[z3];  
+		let rowclip = word_tr_allclip.replaceAll("§1§", z3).replaceAll("§4txt§", parola1).replaceAll("§ttsWtxt§", paro_tts);				
+		frase_showTxt += rowclip + "\n";
+	} // end of for z3
+
+	return frase_showTxt += '</table>\n' ;  
+	
+} //  end of  TOGLIspezzaRiga2()
+
+//===============================
+//                  
+function word_onclick_arrowFromIx(ele_td_arrow, z3, isWord, is_m1) {
+    //------------------------------------------
+    // button from ( --> ) has been clicked 
+    //------------------------------------------
+ 
+    word_removeLastBold(isWord);
+    word_fun_invisible_prev_fromto(-1, isWord, is_m1 );
+	if (isWord) {
+		word_fromIxToIxLimit = [z3, -1];
+		[begix, endix] = word_fromIxToIxLimit; 
+		word_fun_copy_openClose_to_tr_m1(z3, isWord, is_m1); //  copy open/Close book style from this line idtr_xx to the upper idtr_xx_m1
+		word_fromIxToIxButtonElement = [ele_td_arrow, null];
+		ele_td_arrow.style.backgroundColor = "green";
+	} else {
+		fromIxToIxLimit = [z3, -1];
+		[begix, endix] = fromIxToIxLimit;
+		word_fun_copy_openClose_to_tr_m1(z3, isWord, is_m1); //  copy open/Close book style from this line idtr_xx to the upper idtr_xx_m1
+		fromIxToIxButtonElement = [ele_td_arrow, null];
+		ele_td_arrow.style.backgroundColor = "green";
+	}
+
+} // end of  onclick_arrowFromIx()  
+
+//---------------------------------------
+function word_onclick_arrowToIx(ele_td_arrow, z3, isWord, is_m1) {
+    //------------------------------------------
+    // button to( <-- ) has been clicked 
+    //------------------------------------------	
+    var endix2; var id_post_tr_end_space2;
+	var id_pre_tr_beg_space;
+	var id_pre_tr_head ;
+	var id_post_tr_end_space ;
+		
+	
+	
+	if (isWord) {
+		//reset previous ..._ToIx  button     
+		if (word_fromIxToIxButtonElement[1]) {
+			word_fromIxToIxButtonElement[1].style.backgroundColor = null;
+			endix2 = word_fromIxToIxLimit[1];
+			if (endix2 > 0) {
+				id_post_tr_end_space2 = "widtr_" + (endix2 + 1) + "_m2";
+				if (document.getElementById(id_post_tr_end_space2)) {
+					document.getElementById(id_post_tr_end_space2).style.display = "none";
+				}
+			}
+		}
+		//--------- new ... _ToIx ----------------------------------
+		if (z3 <= word_fromIxToIxLimit[0]) {
+			// this set the arrows 
+			var eleFromArrow = word_fromIxToIxButtonElement[0];
+			var eleTr = eleFromArrow.parentElement.parentElement; 
+			console.log("eleTR " + eleTr.tagName + " id="+ eleTr.id); 
+			var preEleTr = eleTr.previousElementSibling;  
+			var preEleTr2 = preEleTr.previousElementSibling;  
+			console.log("preEleTR " + preEleTr.tagName + " id="+ preEleTr.id); 
+			eleFromArrow.style.backgroundColor = null;
+			preEleTr.style.display = "none";
+			preEleTr2.style.display = "none";
+			return; 
+		}
+		
+		word_fromIxToIxLimit[1] = z3;
+		word_fromIxToIxButtonElement[1] = ele_td_arrow;
+		[begix, endix] = word_fromIxToIxLimit;
+		id_pre_tr_beg_space  = "widtr_" + begix + "_m2";
+		id_pre_tr_head       = "widtr_" + begix + "_m1";
+		id_post_tr_end_space = "widtr_" + (endix + 1) + "_m2";
+		word_fun_copyHeaderSelected(begix, endix);
+	} else {
+		//reset previous ..._ToIx  button     
+		if (fromIxToIxButtonElement[1]) {
+			fromIxToIxButtonElement[1].style.backgroundColor = null;
+			endix2 = word_fromIxToIxLimit[1];
+			if (endix2 > 0) {
+				id_post_tr_end_space2 = ele_tr_idPref + (endix2 + 1) + "_m2";
+				if (document.getElementById(id_post_tr_end_space2)) {
+					document.getElementById(id_post_tr_end_space2).style.display = "none";
+				}
+			}
+		}
+		//--------- new ... _ToIx -----
+		fromIxToIxLimit[1] = z3;
+		fromIxToIxButtonElement[1] = ele_td_arrow;
+		[begix, endix] = word_fromIxToIxLimit;
+		id_pre_tr_beg_space = "widtr_" + begix + "_m2";
+		id_pre_tr_head = "widtr_" + begix + "_m1";
+		id_post_tr_end_space = "widtr_" + (endix + 1) + "_m2";
+		fun_copyHeaderSelected(begix, endix);
+	}
+	
+    if (document.getElementById(id_pre_tr_beg_space)) {
+        document.getElementById(id_pre_tr_beg_space).style.display = "table-row";
+    }   
+    if (document.getElementById(id_pre_tr_head)) {
+        document.getElementById(id_pre_tr_head).style.display = "table-row";
+    }
+    if (document.getElementById(id_post_tr_end_space)) {
+        document.getElementById(id_post_tr_end_space).style.display = "table-row";
+    }   
+    ele_td_arrow.style.backgroundColor = "red";
+   
+} // end of onclick_arrowToIx()
+
+
+//------------------------------------------
+
+function word_show_hideORIG(z3, isWord) {
+	if (isWord) {
+		let ele_orig_toTestShow = document.getElementById("widb_" + z3); // onclick ...  children opened/closed orig.image  (book) 		
+		let ele_orig_text = document.getElementById("widc_" + z3); // element of original text to show/hide	 
+		// show subtitle if icon opened book is visible otherwise hide it ( icon closed book is visible) 
+		word_fun_oneClipRow_showHide_ORIG_if_book_opened(ele_orig_text, ele_orig_toTestShow, z3, isWord);
+	} else {
+		let ele_orig_toTestShow = document.getElementById("idb_" + z3); // onclick ...  children opened/closed orig.image  (book) 		
+		let ele_orig_text = document.getElementById("idc_" + z3); // element of original text to show/hide	  
+		// show subtitle if icon opened book is visible otherwise hide it ( icon closed book is visible) 
+		word_fun_oneClipRow_showHide_ORIG_if_book_opened(ele_orig_text, ele_orig_toTestShow, z3, isWord);
+	}
+} // end of  word_show_hideORIG
+
+//-------------------------
+
+function call_boldCell_ix(this1, ixVoice, wh) {
+	var td1 = this1.parentElement; 
+	var tr1 = td1.parentElement; 
+	boldCell( tr1, this1, ixVoice, " call_boldCell_ix() " + wh);  
+}
+//-------------------------------------
+//-------------
+function show_speakingVoice(objtxt_to_speak) {	
+	var msg1 = document.getElementById("m120").innerHTML; //  spoken in
+	var lang0 = get_languageName( objtxt_to_speak.voice.lang ).split("-");
+	
+	var msg = "<b>" +lang0[0] + "</b><br><small>" + 
+		document.getElementById("m120").innerHTML + //  spoken in
+		"</small><br><b>" + lang0[1] + "</b><br>";  
+	
+	ele_voxLangDisplay.innerHTML =  msg + "<br><small>" + objtxt_to_speak.voice.name + "</small>";  
+	   
+} // 
+
+//------------------------------------
+function set_speech_Parms(objtxt_to_speak) {
+	
+	last_objtxt_to_speak   = objtxt_to_speak; 
+    //objtxt_to_speak.voice  = voice_toUpdate_speech;
+	
+	/**
+	if (TTS_LOOP_swLoop) {
+		//console.log("s et_speech_Parms() TTS_LOOP_swLoop=true lastNumVoice=" + lastNumVoice + " listVox.length=" +listVox.length);
+		objtxt_to_speak.voice = listVox[lastNumVoice][1] ;
+	} else {
+		objtxt_to_speak.voice  = voice_toUpdate_speech;
+	}
+	***/
+	objtxt_to_speak.voice = listVox[lastNumVoice][1] ;
+	
+	//ele_voxDisplay.innerHTML = objtxt_to_speak.voice.name;
+	
+	show_speakingVoice(objtxt_to_speak);  
+    
+	objtxt_to_speak.rate   = speech_rate;
+	objtxt_to_speak.pitch  = speech_pitch;
+	
+} // set_speech_Parms()
+
+
+//--------------------------------------------------------------
+function onclick_playSynthVoice_m1_row(this1, numVoice) {
+	TTS_onclick_ClipSub_Play3(this1,numVoice) ;
+}
+//-----------------------------------------------------
+function TTS_onclick_ClipSub_Play3(this1,numVoice) {
+	
+	var ixVoice = numVoice - 1;
+		
+	voice_toUpdate_speech = listVox[ixVoice][1]; 
+
+	call_boldCell_ix(this1, ixVoice, "TTS_onclick_ClipSub_Play3");
+
+
+
+	var begix, endix; 
+	[begix, endix] = fromIxToIxLimit;	
+	
+	console.log("\t??anto? file ...existing.. file 2 TTS_onclick_ClipSub_Play3() begix=" + begix + " endix=" + endix); 
+	
+	
+	onclick_text_to_speech_from_to("idc_",begix, endix, false, "2 TTS_on...Play3");
+	console.log("uscito da onclick_text_to_speech_from_to()"); 
+	
+} // end of TTS_onclick_ClipSub_Play3()
+//------------------------
+									  								
+function onclick_playSynthVoice_word(	this1, ixWord, numVoice) {
+	word_onclick_OneClipRow_play_Loop3( this1, ixWord, false, true, false,numVoice);
+}
+//---------------------
+function word_onclick_OneClipRow_play_Loop3(this1, ixWord, swLoop, isWord, is_m1,numVoice) {
+	
+	var eleTR = this1.parentElement.parentElement;
+	var id_tr = "";
+	if (eleTR == "TR") {
+		id_tr = eleTR.id; 
+	} 
+	
+	//console.log("script_3  word_onclick_OneClipRow_play_Loop3() ixWord=" + ixWord + " numVoice=" + numVoice  + "   id_tr=" + id_tr); 
+
+	var ixVoice = numVoice-1; 
+	if (ixVoice) {
+		voice_toUpdate_speech = listVox[ ixVoice ][1]; 
+	}
+	
+	
+	call_boldCell_ix(this1, ixVoice, "word_onclick_OneClipRow_play_Loop3");
+	
+	onclick_text_to_speech_ix("widc_", ixWord, swLoop, this1);
+	
+} // end of word_onclick_OneClipRow_play_Loop3()	
+
+//----------------------
+function onclick_playSynthVoice_m1_word( this1,numVoice) {
+		word_onclick_ClipSub_Play3(      this1, false, true, true, numVoice); 
+}
+//------------------------
+function word_onclick_ClipSub_Play3(this1, swLoop, isWord, is_m1, numVoice) {
+	var ixVoice = numVoice - 1;
+	
+	if (ixVoice) {
+		voice_toUpdate_speech = listVox[ixVoice][1]; 
+	}
+	
+    var sw_tts2 = (sw_tts || isWord);  
+    var begix, endix;
+	if (isWord) {	
+		[begix, endix] = word_fromIxToIxLimit;
+		if (sw_tts2) { // TTS 
+			if (TTS_LOOP_swLoop) {
+				TTS_LOOP_swLoop = false;
+				return;
+			}
+			if (word_play_or_cancel(this1) < 0) {
+				return;
+			}
+			onclick_text_to_speech_from_to("widc_", begix, endix, swLoop, "3 word_onclip...Play3");
+			return;
+		}		
+    } else { 	
+		[begix, endix] = fromIxToIxLimit;
+		if (sw_tts2) { // TTS 
+			if (TTS_LOOP_swLoop) {
+				TTS_LOOP_swLoop = false;
+				return;
+			}
+			if (word_play_or_cancel(this1) < 0) {
+				return;
+			}
+			onclick_text_to_speech_from_to("idc_", begix, endix, swLoop, "4 word_onclip...Play3");
+			return;
+		}		
+	}
+
+} // end of word_onclick_words1_Play3()
+
+//-------------------------------------------------
+
+
+//---------------------------------------
+function word_fun_invisible_prev_fromto(interX, isWord, is_m1) {
+	// eliminate bold of the  previous group of lines, unless this is a line in them  
+	
+	var id_pre_tr_beg_space, id_pre_tr_head, id_post_tr_end_space;  
+	if (isWord) {
+		[begix, endix] = word_fromIxToIxLimit; // previously set 
+		if ((interX >= begix) && (interX <= endix)) return;
+		id_pre_tr_beg_space  = "widtr_" + begix + "_m2";
+		id_pre_tr_head       = "widtr_" + begix + "_m1";
+		id_post_tr_end_space = "widtr_" + (endix + 1) + "_m2";
+		if (word_fromIxToIxButtonElement[0]) {
+			word_fromIxToIxButtonElement[0].style.backgroundColor = null;
+			if (document.getElementById(id_pre_tr_beg_space) ) {document.getElementById(id_pre_tr_beg_space).style.display = "none"; }
+			if (document.getElementById(id_pre_tr_head     ) ) { document.getElementById(id_pre_tr_head     ).style.display = "none"; }
+		}
+		if (word_fromIxToIxButtonElement[1]) {
+			word_fromIxToIxButtonElement[1].style.backgroundColor = null;		
+			if (document.getElementById(id_post_tr_end_space  ) ) { document.getElementById(id_post_tr_end_space ).style.display = "none"; }
+		}		
+	} else {
+		[begix, endix] = fromIxToIxLimit;  
+		if ((interX >= begix) && (interX <= endix)) return;
+		id_pre_tr_beg_space  = "idtr_" + begix + "_m2";
+		id_pre_tr_head       = "idtr_" + begix + "_m1";
+		id_post_tr_end_space = "idtr_" + (endix + 1) + "_m2";	
+		if (fromIxToIxButtonElement[0]) {
+			fromIxToIxButtonElement[0].style.backgroundColor = null;
+			if (document.getElementById(id_pre_tr_beg_space) ) {document.getElementById(id_pre_tr_beg_space).style.display = "none"; }
+			if (document.getElementById(id_pre_tr_head     ) ) { document.getElementById(id_pre_tr_head     ).style.display = "none"; }
+		}
+		if (fromIxToIxButtonElement[1]) {
+			fromIxToIxButtonElement[1].style.backgroundColor = null;			
+			if (document.getElementById(id_post_tr_end_space  ) ) { document.getElementById(id_post_tr_end_space ).style.display = "none"; }
+		}
+	}	
+} // end of word_fun_invisible_prev_fromto()
+
+
+
+
+//------------------------------------------
+
+function word_fun_copy_openClose_to_tr_m1(z3, isWord, is_m1) {
+	var i_eleSubO, o_eleSubO;
+	if (isWord) {
+		i_eleSubO = document.getElementById("widb_"  + z3);      
+		o_eleSubO = document.getElementById("widb_"  + z3 + "_m");	
+	} else {
+		i_eleSubO = document.getElementById("idb_"  + z3);      
+		o_eleSubO = document.getElementById("idb_"  + z3 + "_m");		
+	}	
+	try{	
+		o_eleSubO.children[0].style.display = i_eleSubO.children[0].style.display ;    // ${openbook_symb}
+		o_eleSubO.children[1].style.display = i_eleSubO.children[1].style.display ;    // ${closedbook_symb}
+    } catch(e1) {
+		console.log("error in 'word_fun_copy_openClose_to_tr_m1(z3=" + z3 +")'" ); 
+		console.log(e1);
+	}
+} // end of word_fun_copy_openClose_to_tr_m1() 
+//---------------------------------------
+
+
+//-----------------------------------------------
+function word_fun_copyHeaderSelected(begix, endix) {
+	
+	let id1;
+	let inBeg, inEnd; 
+	
+	id1 = "widb_" + begix + "_m";  
+	var ele_idb = document.getElementById(id1); 
+	if (ele_idb == false) { return; }
+	
+	inBeg      = begix;
+	inEnd      = endix; 	
+	if (begix > endix) {
+		inBeg  = endix;
+		inEnd  = begix; 		
+	} 	 
+	var style0 , style1; 
+	
+	fun_oneRowZZ1(); 
+
+	for(var g=inBeg; g <= inEnd; g++) {
+		id1 = "widb_" + g;   			
+		ele_idb = document.getElementById(id1); 
+		word_fun_oneRow11(ele_idb); 	
+	} 
+	 	
+	//--------------
+	function fun_oneRowZZ1() {
+		if (ele_idb == false) { return; }		
+		if (ele_idb.children[0].style.display == "none") {  // no openbook   
+			style0 = "none";                          //  hide opened book image  
+			style1 = "block";						  //  show closed book image 
+		} else {			
+			style0 = "block";                         // show opened book image  
+			style1 = "none";						  // hide closed book image 	
+		}			
+	}	
+	//--------------
+	function word_fun_oneRow11(ele_idb) {	
+		if (ele_idb == false) { return; }
+		ele_idb.children[0].style.display = style0;         // show/hide opened book image  
+		ele_idb.children[1].style.display = style1; 		 // show/hide closed book image 
+		let subid_idc = ele_idb.id.replace("idb","idc"); 		
+		if (subid_idc.substring( subid_idc.length-2) == "_m") {
+			return; 
+		} 
+		let ele_idc = document.getElementById( subid_idc );
+		if (ele_idc == false) return;
+		if (style0 == "block") {
+			word_fun_makeTextVisible(ele_idc);
+		} else {
+			word_fun_makeTextInvisible(ele_idc); 
+		}		
+	} // end of word_fun_oneRow11) //  
+	//--------------
+	
+} // end of word_fun_copyHeaderSelected()
+
+//-----------------------------
+//--------------
+function word_play_or_cancel(this1) {
+	
+	if (isPlaying) {
+	   //	console.log("\t isplaying on is still running ==> cancel it and exit");
+	   if (ele_last_play) 	ele_last_play.style.backgroundColor = null;
+	   
+	   onclick_speech_cancel(); 
+	   end_speech();
+	   if (this1 == ele_last_play) {  // click on the same line which is running ==> it means ==> I just want to stop it   
+			return -1; 
+	   }
+	   // click not on the sameline running ==> I wanted to stop the last line e start a new one 
+	   
+	}
+	
+	this1.style.backgroundColor = "red";
+	ele_last_play = this1; 
+	return 0; 
+} // end of  word_play_or_cancel
+//---------------------
+
+
+//-----------------------------
+function word_onclick_OneClipRow_showHide_sub( ele_idb, sw_allSel, swAllAll, isWord, is_m1) {	
+	
+	if (ele_idb == false) { return; }		
+	
+	let id1;
+	let inBeg, inEnd; 
+	inBeg      = begix;
+	inEnd      = endix; 
+	if (isWord == false) { 
+		if (swAllAll) {
+			inBeg= clipFromRow_min;
+			inEnd= line_list_o_from1.length-1; 
+		}
+	}
+	if (begix > endix) {
+		inBeg  = endix;
+		inEnd  = begix; 		
+	} 	 
+	var style0 , style1; 	
+	if (isWord) {
+		word_fun_oneRow00(); 	
+	} else {
+		if (swAllAll) {
+			if (ele_idb.children[0].style.display == "block") {  // openbook   
+				style0 = "block";                         // show opened book image  
+				style1 = "none";						  // hide closed book image 	
+			} else {
+				style0 = "none";                          //  hide opened book image  
+				style1 = "block";						  //  show closed book image 	
+			}
+		} else {
+			word_fun_oneRow00(); 	
+		}
+	}
+	word_fun_oneRow22(1); 
+	
+	if (sw_allSel) {	
+		for(var g=inBeg; g <= inEnd; g++) {
+			if (isWord) id1 = "widb_" + g;   
+			else id1 = "idb_" + g;   			
+			ele_idb = document.getElementById(id1); 
+			word_fun_oneRow22(1+inEnd-inBeg); 	
+		} 
+	} 	
+	//--------------
+	function word_fun_oneRow00() {
+		if (ele_idb == false) { return; }
+		
+		if (ele_idb.children[0].style.display == "none") {  // no openbook   
+			style0 = "block";                         // show opened book image  
+			style1 = "none";						  // hide closed book image 	
+		} else {
+			style0 = "none";                          //  hide opened book image  
+			style1 = "block";						  //  show closed book image 	
+		}
+		
+	}	
+	//-------------------  
+	function word_fun_oneRow22(nn) {	// 2 word_onclick_OneClipRow_showHide_sub
+		
+		
+		if (ele_idb == false) { return; }
+		
+		ele_idb.children[0].style.display = style0;         // show/hide  opened book image  
+		ele_idb.children[1].style.display = style1; 		  // show/hide closed book image 
+		let subid = ele_idb.id.replace("idb","idc"); 		
+		//if (is_m1) return;  
+		let ele_idc = document.getElementById( subid );
+		if (style0 == "block") {
+			word_fun_makeTextVisible(ele_idc);  
+		} else {		
+			word_fun_makeTextInvisible(ele_idc);
+		}
+	} // end of word_fun_oneRow22()
+	//-------------------------
+	
+} // end of word_onclick_OneClipRow_showHide_sub()  // 2 
+
+//-------------------------------------------------------------------------
+
+function word_onclick_show_row(this1, z3, isWord, is_m1) {
+	word_removeLastBold(isWord); 
+	if (this1 == false) { return; }	
+	
+	if (this1.children[0].style.display == "none") {  // no openbook   
+		this1.children[0].style.display = "block";                         // show opened book image  
+		this1.children[1].style.display = "none";						  // hide closed book image 	
+	} else {
+		this1.children[0].style.display = "none";                          //  hide opened book image  
+		this1.children[1].style.display = "block";						  //  show closed book image 	
+	}
+	word_show_hideORIG(z3, isWord);
+	
+}	
+//-----------------------------------------------------
+
+//----------------------------
+function word_fun_makeTextInvisible(element) {	
+	if (element == null) { return; }
+	//element.style.visibility = "hidden"; 
+	element.style.display = "none"; 	
+}
+//----------------------------
+function word_fun_makeTextVisible(element) {
+	if (element == null) { return; }		
+	//element.style.visibility = "visible"; 
+	element.style.display = "block"; 	
+}
+
+//------------------------
+function word_removeLastBold(isWord) {
+	
+	var id_pref = "idc_";
+	if (isWord) id_pref = "widc_";
+
+	if (word_last_BoldRow) {
+		word_last_BoldRow.classList.remove("boldLine");
+		word_last_BoldRow.style.backgroundColor = null; 
+		word_last_BoldRow.parentElement.style.border = null; 
+		var last_ele1_tr = word_last_BoldRow.parentElement.parentElement ;
+		last_ele1_tr.style.backgroundColor = "lightgrey"; 
+	}	
+	if (sw_tts2) tts_remove_last_bold(id_pref, isWord);  
+}
+//-------------------------------------------
+
+function word_fun_oneClipRow_showHide_ORIG_if_book_opened( ele1, ele_to_test , z3, isWord) {
+	
+	var ele1_tr = ele1.parentElement.parentElement ;
+
+	
+	word_removeLastBold(isWord); 
+	if (ele1 == null) {return;}	
+	if (isWord) word_last_BoldRow = ele1; 
+	else word_last_BoldRow = ele1; 
+	
+	if (ele_to_test.children[0].style.display == "block") {  // openbook ==> show 
+		//ele1.style.visibility = "visible"; 
+		ele1.style.display = "block"; 
+		ele1.classList.add("boldLine"); 
+		ele1.style.backgroundColor = "yellow";			
+		ele1.parentElement.style.border = null;
+		//feb if (sw_is_no_videoaudio == false) ele1_tr.style.backgroundColor = "yellow";			
+		ele1_tr.style.backgroundColor = "yellow";	//feb 		
+	} else {	                                      // closebook  ==> hide 
+		//ele1.style.visibility = "hidden"; 	
+		ele1.style.display = "none"; 
+		ele1.classList.remove("boldLine");
+		ele1.style.backgroundColor = null; 
+		ele1.parentElement.style.border = "1px solid red"; 
+		//feb if (sw_is_no_videoaudio == false) ele1_tr.style.backgroundColor = "yellow";		
+		//ele1_tr.style.backgroundColor = "yellow";	//feb	  
+	}		 
+		
+} // end of fun_oneClipRow_showHide_ORIG_if_book_opened()
+//================================================================	
+	
+//js2___________________
+	//-----------------------------------------------
+	function removeLastEle( id1 ) {
+		console.log("\tremoveLastEle(id1=" + id1); 
+		if (document.getElementById(id1)) document.getElementById(id1).remove();
+	}
+	//-------------------------------------------
+	function onclick_seeWords(this1, numId) {
+	    
+		//console.log("1 onclick_seeWords()");
+		
+		var anal_txt = ""; var anal_tts_txt=""; 
+	    var idc1 = "idc_"  + numId;
+		var idtts= "idtts" + numId; 
+
+	    var anal_ele_idc   = document.getElementById(idc1 );		
+		var anal_ele_idtts = document.getElementById(idtts);	
+			
+	    if (anal_ele_idc) {
+	        anal_txt = anal_ele_idc.innerHTML;
+			anal_tts_txt= anal_ele_idtts.innerHTML; 
+	    } else {
+	        return;
+	    }
+		
+		var eleTR = anal_ele_idtts.parentElement.parentElement.parentElement; 
+		var trHeight = eleTR.offsetHeight; 
+	
+		
+		
+		var id_analWords = "idw_" + numId;
+		var ele_wordset = document.getElementById(id_analWords);   
+		
+		
+		if (last_ele_analWords_id != "") {	
+			// remove the previous 
+			var last_ele_analWords = document.getElementById(last_ele_analWords_id);
+			if (last_ele_analWords)  {
+				
+						
+				last_ele_analWords.style.height = null;   				
+				last_ele_analWords.innerHTML = "";  
+				last_ele_analWords_tr.style.height = last_ele_analWords_height;	
+				
+					
+				last_ele_analWords = null; 					
+			}	
+			if (id_analWords == last_ele_analWords_id) {  // if it's the same as the previous then  remove it  		
+				last_ele_analWords = null; 	
+				last_ele_analWords_id = "";
+				return; 
+			}	
+			last_ele_analWords_id = "";
+		}	
+		
+	    var table_txt = spezzaRiga2(anal_txt, anal_tts_txt)	 ;   
+
+	    //var divVoices_outer = document.getElementById("id_tts").outerHTML;
+	    //var divVoices_outer2 = divVoices_outer.replaceAll('id="', 'id="w');
+		//divVoices_outer2=""; //  
+		
+		var divWord = "";
+		
+		divWord += table_txt;
+		
+		ele_wordset.innerHTML = divWord; 
+		
+		var prevTR  = document.getElementById( "idtr_" + (numId-4) ); 
+		if (prevTR) fun_scroll_tr_toTop( prevTR ); 	// scroll 
+		
+		
+		last_ele_analWords_id = id_analWords;
+		last_ele_analWords_tr = eleTR; 
+		last_ele_analWords_height = trHeight;  
+			
+		
+	} //  end of onclick_seeWords()
+	
+
+
+//-------------------------------------
+
+
+
+
+//js3_____________________________
+//----------------------------------------------------------
+function break_priority(txt1, maxLen, sw_let_old_newline ) {
+	
+	if (sw_let_old_newline == false) {
+		txt1 = txt1.replaceAll("\n", " ");  // eliminate existing newline  
+	} 
+	
+	// break text into lines always for: end of sentence (.), question mark(?), exclamation(!), semicolon(;)  
+		
+    var row1 = txt1.replaceAll("<br>", "\n").
+		replaceAll(". ", ".\n").
+		replaceAll("? ", "?\n").
+		replaceAll("! ", "!\n").
+		replaceAll("; ", ";\n");
+	
+	return row1.split("\n");  
+}
+//-----------------------------------------
+function break_text(txt1, maxLen, sw_let_old_newline) {
+
+    // break for: new line, end of sentence (.), exclamantion(!)  and question mark(?), and semicolon(";")     
+    // break for too long line ( last comma or last blank before reaching the maximum length   
+	
+	var rtxt2 = break_priority(txt1, maxLen, sw_let_old_newline);
+	
+	//console.log("break_text(txt1=" + txt1 + " \n\trtxt2=" + rtxt2);   
+
+    //-------------------------------	
+    function tooLongLine(oneLine) {
+		// break in strings with their length not > maxlen  ( firstly try to find colon(:), then comma(,) and lastily space(" ")  
+        var txt3 = oneLine.trim();
+        var newLine2 = "";
+        var len1;
+        var txt3a;
+        var u, u1,u2;
+		//-------------
+        for (var h = 0; h < txt3.length; h++) {
+            len1 = txt3.length; 
+            if (len1 < 1) {
+                break;
+            }
+            if (len1 <= maxLen) {
+                newLine2 += txt3 + "\n"; 
+                break;
+            }
+			
+            txt3a = txt3.substring(0, maxLen);
+			u1 = txt3a.lastIndexOf(": ");
+            u2 = txt3a.lastIndexOf(", ");
+			u  = Math.max(u1,u2);
+            if (u >= 0) {
+                u++;
+            } else {
+                u = txt3a.lastIndexOf(" ");
+            }
+            if (u < 0) {
+                u = txt3.indexOf(" ");  // find next forward 
+                if (u < 0) {
+                    u = txt3.length;  // take all string 
+                }
+            }
+            newLine2 += txt3.substring(0, u) + "\n";
+
+            txt3 = txt3.substring(u).trim();
+        }
+        return newLine2;
+		
+    } // end of tooLongLine();
+	
+    //-------------------------------------------
+	
+    var newLine = "";
+    for (var g = 0; g < rtxt2.length; g++) {
+		newLine += tooLongLine( rtxt2[g] ); 
+	}
+	
+
+	return newLine;
+
+} // end of break_text() 
+
+//-----------------------------------------
+function test_break_text(txt1) {
+	
+	console.log("old=" + "\n" + txt1 + "\n-------------------\n"); 
+	
+	var newLine = break_text(txt1, TXT_SPEECH_LENGTH_LIMIT, sw_let_old_newline);
+	var lines = newLine.split("\n"); 
+    for (var v1 = 0; v1 <lines.length; v1++) {
+        console.log(v1 + "  " + lines[v1]) ;
+    }
+}
+//-----------------------------
+
+//js4________________________
+
+//----------------
+
+function speak_a_line(objtxt_to_speak) {
+	if (sw_cancel) {
+		TTS_LOOP_swLoop = false;
+		sw_cancel = false; 
+		return; 
+	}  
+	//speech_rate  = last_rate;
+	
+	set_speech_Parms(objtxt_to_speak); 	
+	
+    synth.speak(objtxt_to_speak);
+	
+} // end of speak_a_line()
+//-------------------------------------------
+
+
+//---------------------
+function speech_end_fun() {
+
+    x1_line++;
+	
+	if ((x1_line) >= textLines.length) {
+		//console.log("speech_end_fun()1");
+		end_speech(); // defined in the caller   **   Feb 11, 2023	
+		return;
+	}
+    var objtxt_to_speak;
+    //rigout += textLines[x1_line] + "<br>";
+    
+  
+
+    if ((x1_line + 1) >= textLines.length) 
+		{	
+			//console.log("speech_end_fun()2");
+			end_speech(); // defined in the caller   **   Feb 11, 2023	
+			return;
+		}	
+	
+    objtxt_to_speak = utteranceList[x1_line + 1];
+	speech = objtxt_to_speak; //2  
+	
+    objtxt_to_speak.onend = speech_end_fun;
+	
+	//objtxt_to_speak.onend = (event) =>  {speech_end_fun(event) } ;
+
+	
+    speak_a_line(objtxt_to_speak);
+	
+} // end of speech_end_fun
+
+//----------------------------------------------------------
+
+function onclick_text_to_speech2(txt1, wh) {	
+	
+	sw_pause = false; 	
+	startTime = new Date();	
+	txt_length = txt1.length; 
+	
+	utteranceList = []; 
+	x1_line=0; 
+	txt1 = removeBold_and_Font(txt1); 
+    
+	var newLine = break_text(txt1, TXT_SPEECH_LENGTH_LIMIT, false);  // 3rd param true =  sw_hold_existing_endOfLine
+
+	newLine = newLine.replaceAll("\n","\n\n");
+	
+    textLines = newLine.split("\n");
+	
+    var objtxt_to_speak;
+    //var riga;
+	//------------
+    for (var v1 = 0; v1 < textLines.length; v1++) {		
+		objtxt_to_speak = new SpeechSynthesisUtterance( textLines[v1]);		
+        utteranceList.push(objtxt_to_speak);
+    }
+    objtxt_to_speak = utteranceList[0];
+	speech = objtxt_to_speak; // 1
+  
+	objtxt_to_speak.onend = speech_end_fun;
+	
+
+	
+	speak_a_line(objtxt_to_speak);	
+	
+
+} // end of onclick_text_to_speech2() 	
+//----------------------------------
+
+
+
+
+//------------------------------------------------
+
+function onclick_change_voice(this1) {
+	
+    var vindex = this1.value;
+	voice_toUpdate_speech = voiceList[vindex];	
+	
+	
+	LS_voice_index = vindex; 	
+	
+	fun_set_localStorage_item_from_vars(); 	
+	
+    console.log("XXXX  voice: " + 
+		" index=" + LS_voice_index +
+		 " lang=" + voice_toUpdate_speech.lang +
+		 " name=" + voice_toUpdate_speech.name ); 
+	
+} // end of  onclick_change_voice(); 
+
+//-------------------------------------------------
+
+	
+         function onclick_changeRate(this1) {
+			var rate = parseFloat(this1.value);
+			if (rate < 0.30) rate = 0.30; 
+			last_rate = rate; 
+			this1.value = rate; 
+			speech_rate = rate; 
+			if (last_objtxt_to_speak) last_objtxt_to_speak.rate = rate; 
+			var thisTD = this1.parentElement; 
+			var preTD  = thisTD.parentElement.children[1]; 
+			preTD.innerHTML = rate;  
+         }
+         //---------------------------------------
+         function onclick_changePitch(this1) {
+         	var pitch = this1.value;
+			if (pitch < 0.1) pitch = 0.1; 
+			this1.value  = pitch;
+         	speech_pitch = pitch;			
+			if (last_objtxt_to_speak) last_objtxt_to_speak.rate = pitch; 
+			var thisTD = this1.parentElement; 
+			var preTD  = thisTD.parentElement.children[1]; 
+			preTD.innerHTML = pitch;  
+         } 
+         //----------------------------------
+		function onclick_speech_pause() {
+			console.log("pause"); 
+			if (synth.speaking) { 
+				sw_pause = true; 
+				//window.speechSynthesis.pause();
+				synth.pause(); 
+			}
+		}
+		//---------------------
+		function onclick_speech_resume() {
+			console.log("resume"); 
+			sw_pause = false; 
+			window.speechSynthesis.resume();
+			synth.resume(); 
+		}
+				 
+		 //----------------------
+		 
+         function onclick_speech_cancel() {
+			console.log("*** cancel ***"); 
+			sw_cancel = true; 
+			if (synth.speaking) { 
+				synth.cancel();
+			}
+         }                                                                       
+         //------------------------------------
+
+function onclick_change_synth_rate(this1) {
+	speech_rate = parseFloat(this1.value);
+	if (speech_rate < 0.25) { 
+		speech_rate = 0.25; 
+	}
+	//document.getElementById("rate-label").innerHTML = speech_rate;
+	document.getElementById("id_syncRate1").value = speech_rate;
+	document.getElementById("id_setSpeedy").value = speech_rate;
+}
+
+//-------------------------------------------
+var pLastBold_ix1 = -1;  // phrase
+var pLastBold_ix2 = -1; 
+var wLastBold_ix1 = -1;  // word
+var wLastBold_ix2 = -1; 
+//---------------------
+
+function tts_remove_last_bold(id_pref, isWord) {
+
+	var lastBold_ix1, lastBold_ix2;	
+	if (isWord) {
+		lastBold_ix1 = wLastBold_ix1;		
+		lastBold_ix2 = wLastBold_ix2;
+	} else {	
+		lastBold_ix1 = pLastBold_ix1;		
+		lastBold_ix2 = pLastBold_ix2;
+	}
+	if (lastBold_ix2 < 0) return;
+	
+	for(var v=lastBold_ix1; v <= lastBold_ix2; v++) {
+		var ele1 = document.getElementById(id_pref + v);
+		if (ele1 == false) continue;
+		var ele1_tr = ele1.parentElement.parentElement ;
+		ele1.classList.remove("boldLine");
+		ele1.style.backgroundColor = null; 
+		ele1.parentElement.style.border = null; // "1px solid red"; 
+		ele1_tr.style.backgroundColor = "lightgrey"; // "yellow";	//feb	  
+	} 
+	lastBold_ix2 = -1;
+	if (isWord) {
+		wLastBold_ix1 = lastBold_ix1;		
+		wLastBold_ix2 = lastBold_ix2;
+	} else {	
+		pLastBold_ix1 = lastBold_ix1;		
+		pLastBold_ix2 = lastBold_ix2;
+	}
+} // end of tts_remove_last_bold()
+
+//------------------------------
+
+function tts_showHide_if_book_opened_from_to(id_pref, id_pref_idb, z3a,z3b) {
+	var isWord = (id_pref.substr(0,1) == "w");
+	word_removeLastBold(isWord); 
+	
+	//console.log("2tts showHide " + z3a + " " + z3b );
+	
+	var ele_to_test = document.getElementById(id_pref_idb + z3a + "_m"); 
+	
+	
+	if (ele_to_test.children[0].style.display == "block") {  // openbook ==> show 
+		for(var v=z3a; v <= z3b; v++) {			
+			var ele1 = document.getElementById(id_pref + v);
+			var ele1_tr = ele1.parentElement.parentElement ;
+			//ele1.style.visibility = "visible"; 
+			ele1.style.display = "block"; 
+			ele1.classList.add("boldLine"); 
+			ele1.style.backgroundColor = "yellow";			
+			ele1.parentElement.style.border = null;
+			//feb if (sw_is_no_videoaudio == false) ele1_tr.style.backgroundColor = "yellow";		
+			if (ele1_tr) ele1_tr.style.backgroundColor = "yellow";	//feb 	
+		} 
+	}	
+	if (isWord) {
+		wLastBold_ix1 = z3a;		
+		wLastBold_ix2 = z3b;
+	} else {	
+		pLastBold_ix1 = z3a;		
+		pLastBold_ix2 = z3b;
+	}
+	
+} // end of tts_showHide_if_book_opened_from_to()
+//----------------------------------
+function tts_showHide_if_book_opened(id_pref,id_pref_idb, z3) {
+	var isWord = (id_pref.substr(0,1) == "w");
+	word_removeLastBold(isWord); 
+	
+	//console.log("1tts showHide " + z3 );
+	
+	var ele1 = document.getElementById(id_pref + z3);
+	var ele_to_test = document.getElementById(id_pref_idb + z3);
+	
+	var ele1_tr = ele1.parentElement.parentElement ;
+
+	
+	
+	if (ele1 == null) {return;}	
+	if (last_blue_cell) {
+		last_blue_cell.style.border = null;
+	}
+	if (ele_to_test.children[0].style.display == "block") {  // openbook ==> show 
+		//ele1.style.visibility = "visible"; 
+		ele1.style.display = "block"; 
+		ele1.classList.add("boldLine"); 
+		ele1.style.backgroundColor = "yellow";			
+		ele1.parentElement.style.border = null;
+		//feb if (sw_is_no_videoaudio == false) ele1_tr.style.backgroundColor = "yellow";			
+		ele1_tr.style.backgroundColor = "yellow";	//feb 	
+	} else {	                                      // closebook  ==> hide 
+		//ele1.style.visibility = "hidden"; 	
+		le1.style.display = "none"; 
+		ele1.classList.remove("boldLine");
+		ele1.style.backgroundColor = null; 
+		ele1.parentElement.style.border = "1px solid blue";  //red
+		last_blue_cell = ele1.parentElement; 
+		//feb if (sw_is_no_videoaudio == false) ele1_tr.style.backgroundColor = "yellow";		
+		//ele1_tr.style.backgroundColor = "yellow";	//feb	  
+	}
+	if (isWord) {
+		wLastBold_ix1 = z3;		
+		wLastBold_ix2 = z3;
+	} else {	
+		pLastBold_ix1 = z3;		
+		pLastBold_ix2 = z3;
+	}	
+	
+} // end of tts_showHide_ORIG_if_book_opened() 
+
+
+//-------------------------
+function onclick_text_to_speech_ix(id_pref, ixWord, swLoop, this1) {
+	
+	var ele1 = document.getElementById(id_pref + ixWord);
+	var txt1; 
+	if (ele1) { 
+		txt1 = ele1.innerHTML;
+	} else { 
+		return; 
+	} 
+	var tts_txt1 = txt1; 
+	//  id="widc_4">coeli</div> <div style="display:none;" id="widtts_4">celi</div>
+	
+	
+	
+	if (id_pref=="widc_") {
+		var eleTTS = document.getElementById("widtts_" + ixWord);
+		if (eleTTS) {
+			tts_txt1 = eleTTS.innerHTML;
+		}	
+	}   
+	
+	var id_pref_idb = id_pref.replace("idc","idb");  
+	
+	tts_showHide_if_book_opened(id_pref,id_pref_idb, ixWord) ;
+	
+	TTS_LOOP_begix   = ixWord;
+	TTS_LOOP_endix   = ixWord; 
+	TTS_LOOP_swLoop  = swLoop; 	
+	TTS_LOOP_elem    = this1;
+	
+    onclick_text_to_speech2(tts_txt1 ,1 );
+
+} // end of onclick_text_to_speech_ix()
+
+
+//----------------------------------
+
+function onclick_text_to_speech_from_to(id_pref, begix, endix, swLoop, wh) {
+		console.log("??? anto?? file word_cbc....  () " + wh + " (id_pref=" + id_pref + " begix=" + begix + " endix=" + endix);
+	console.log("??anto?? word...to_speech.. onclick_text_to_speech_from_to(id_pref=" + id_pref + " begix=" + begix + " endix=" + endix);
+	var id_pref_sp = id_pref; 
+	var id_pref_idb = id_pref.replace("idc","idb");  
+	tts_showHide_if_book_opened_from_to(id_pref, id_pref_idb, begix, endix); 
+	
+	if (id_pref=="widc_") {
+		id_pref_sp = "widtts_";
+	} {
+		if (id_pref == "idc_")  id_pref_sp = "idtts";  
+	}
+	
+	TTS_LOOP_begix=begix;
+	TTS_LOOP_endix=endix; 
+	TTS_LOOP_swLoop=swLoop; 	
+	
+    var txt1 = "";
+    for (var t1 = begix; t1 <= endix; t1++) {
+		var txtO = document.getElementById(id_pref + t1).innerHTML;
+        var txtSp = document.getElementById(id_pref_sp + t1).innerHTML.trim();
+		if (txtSp == "") {
+			txtSp = txtO.trim(); 
+		}
+		
+        txt1 += txtSp + " ";  // separatore di parole = " "    
+    }
+	console.log("\ttxt1=" + txt1.substring(0,80) + "...");
+	
+    onclick_text_to_speech2(txt1, 2);  
+
+} // end of onclick_text_to_speech_from_to()
+
+
+
+//--------------------------------------------
+function end_speech_calculation() {
+	
+	// called by end_speech() in cbc_player_script   and cbc_player_word_script
+	
+	var  endTime = new Date();
+	  var timeDiff = endTime - startTime; //actual elapsed time in ms 
+	  
+	 if (txt_length < 1) { return; }
+	 
+	
+	  
+	
+	 
+	 var normal_time = timeDiff * speech_rate ; 
+	 
+	
+	 
+	
+	 	
+	 
+	 
+	 //-----------
+	 tot_norm_time += normal_time;
+	 tot_txt_len   += txt_length;	
+	 tot_norm_mill_char = tot_norm_time / tot_txt_len; 	  
+	 tot_norm_str_leng_limit =  ELAPSED_TIME_SPEECH_LIMIT / tot_norm_mill_char;	 
+	 TXT_SPEECH_LENGTH_LIMIT =  parseInt(tot_norm_str_leng_limit * speech_rate) ; 
+	 /**
+	 console.log("---------"); 
+	 console.log(" \tTOT normalized: elapsed time=" + tot_norm_time + ", txt_len=" + tot_txt_len  +  ", millsecs x char=" +  tot_norm_mill_char.toFixed(1) + 
+			      "\t                maximum string length limit = " + tot_norm_str_leng_limit.toFixed(1) +
+			" (string spoken in " + (ELAPSED_TIME_SPEECH_LIMIT/1000) + " seconds" );
+	 
+	 console.log(" \tTOT to be used: maximum string length limit = " + TXT_SPEECH_LENGTH_LIMIT + "   \n"); 
+	 //----
+	 
+	 console.log("TOT.normalized:millsecs x char=" + tot_norm_mill_char.toFixed(1) + ",\tmax str.leng.= " + tot_norm_str_leng_limit.toFixed(1) +
+		" \tACTUAL:  max str.leng.= " + TXT_SPEECH_LENGTH_LIMIT  + "  (speech rate=" + speech_rate +")");
+	**/	
+	
+	
+		
+	loopManager(); 	
+	 
+} // end of end_speech_calculation() 
+//-----------------------------------------
+//--------------------		
+function end_speech() {
+	if (isPlaying) isPlaying = false ; 
+	if (ele_last_play) {
+		if (TTS_LOOP_swLoop == false) { 
+			ele_last_play.style.backgroundColor = null;
+		}
+	}
+	end_speech_calculation();  
+} // end of end_speech()
+
+//-------------------------------------------
+
+function loopManager() {	
+	
+	if (sw_cancel) {
+		TTS_LOOP_swLoop = false;
+		sw_cancel = false; 
+	}  
+	if (TTS_LOOP_swLoop == false) return; 
+	
+	lastNumVoice++; 
+	if (lastNumVoice >= totNumMyLangVoices) lastNumVoice = 0; // to change voice on each cycle
+	
+	var id_pref = "idc_";
+	
+	// wait 1 second and then start again  
+	setTimeout(function() {
+					if (TTS_LOOP_begix == TTS_LOOP_endix) {onclick_text_to_speech_ix( id_pref, TTS_LOOP_begix, TTS_LOOP_swLoop,TTS_LOOP_elem);
+					} else {
+					onclick_text_to_speech_from_to( id_pref, TTS_LOOP_begix, TTS_LOOP_endix, TTS_LOOP_swLoop, "1 loop_manager") ;
+					}
+				}, 
+				1000);	
+} // end of loopManager()
+
+//---------------
+
+ function TOGLIinsert_pause2(txt3, this1) {	
+		
+			txt3 = txt3.replaceAll("-"," ").replaceAll("..,",",").replaceAll("..."," ").replaceAll(" .",".").replaceAll(" ", ". ");  			
+		
+			return txt3; 	
+		 } 	// end of TOGLIinsert_pause2()
+		
+
+
+		 function TOGLIinsert_pause(txt3, this1) {	
+			console.log("insert_pause()"); 
+			txt3 = txt3.replaceAll("-"," ").replaceAll("..,",",").replaceAll("..."," ").replaceAll(" .","."); 
+			var swEle; 	
+			if (sw_word_script) {
+				swEle= document.getElementById("idpau1"); 
+			} else {
+				var tr = this1.parentElement.parentElement; 
+				var id1 = tr.id;
+				if (id1.substr(0,5) != "idtr_") return txt3;
+				if (id1.indexOf("_m") >= 0) return txt3;				
+				var id2 = id1.replace("idtr_", "idpau"); 
+				swEle= document.getElementById(id2); 
+			}
+			
+			if (swEle == null) return txt3;
+		
+			if (swEle.innerHTML == "yes") {
+				console.log("insert_pause(" + txt3 + " \n\t" + txt3.replaceAll(" ", ". ")); 
+				txt3 = txt3.replaceAll(" ", ". "); 			
+			}	
+			return txt3; 	
+		 } 	// end of TOGLIinsert_pause()
+		
+		 //--------------------------
+		 function boldCell( tr1, this1, ixVoice, wh) {
+				if (lastBoldCell) {
+					lastBoldCell.style.backgroundColor = null;
+				}
+			var selected_numVoices2=1;	
+			console.log("1boldCell tr1=" + tr1.id + " this1=" + this1.id + " ixVoice=" + ixVoice); 
+			var  td1 = this1.parentElement; 
+			var ixTab_TD = td1.cellIndex; 
+			
+			var ixDiff = ixTab_TD - ixVoice; 
+			var ixTD_0 = 0;	
+			
+ 			var num_tr_cells =  tr1.cells.length; 
+			
+	console.log("\t2boldCell() num_tr_cells=" +  num_tr_cells + " ixTab_TD=" + ixTab_TD + " ixDiff=" + ixDiff + "  n=" + n + " selected_numVoices="+selected_numVoices);
+			
+			for(var n=0; n < selected_numVoices2; n++) {
+				ixTD_0 = n + ixDiff;
+				console.log("\t3boldCell() ixTD_0=" + ixTD_0 + " ixDiff=" + ixDiff + "  n=" + n);
+				/**
+				if (ixTD_0 >= num_tr_cells) {
+					console.log("script_3 boldCell(tr1=" + tr1.id + " this1.id=" +this1.id + " ixVoice="+ixVoice +
+						" ixTD_0 (" + ixTD_0+") >= num_tr_cells(" + num_tr_cells+")   n=" + n  );
+					console.log( " tr1.cells[ixTD_0].innerHTML=" + tr1.cells[ixTD_0].innerHTML); 	
+					//break;
+				} 
+				**/
+				
+				if (n == ixVoice) {						
+					lastBoldCell = tr1.cells[ixTD_0]; 	
+					lastBoldCell.style.backgroundColor = "green";
+				} else {
+					tr1.cells[ixTD_0].style.backgroundColor = null;
+				}			
+			}	
+			
+		 } 	// end of boldCell()
+		 
+//--------
+
+function onclick_playSynthVoice_m1_row2(this1, ixTD, swPause,swNewVoice) {
+
+	//call_boldCell_ix(this1, ixVoice, "TTS_onclick_ClipSub_Play3");
+
+	var begix, endix; 
+	[begix, endix] = fromIxToIxLimit;	
+	
+	var id_pref = "idc_" ;
+	//------------	
+	var id_pref_sp = id_pref; 
+	var id_pref_idb = id_pref.replace("idc","idb");  
+	tts_showHide_if_book_opened_from_to(id_pref, id_pref_idb, begix, endix); 
+	
+	if (id_pref=="widc_") {
+		id_pref_sp = "widtts_";
+	} {
+		if (id_pref == "idc_")  id_pref_sp = "idtts";  
+	}
+	
+	TTS_LOOP_begix=begix;
+	TTS_LOOP_endix=endix; 
+	TTS_LOOP_swLoop=false; 	
+	
+    var txt3 = "";
+    for (var t1 = begix; t1 <= endix; t1++) {
+		var txtO = document.getElementById(id_pref + t1).innerHTML;
+        var txtSp = document.getElementById(id_pref_sp + t1).innerHTML.trim();
+		if (txtSp == "") {
+			txtSp = txtO.trim(); 
+		}
+        txt3 += txtSp + " ";  // separatore di parole = " "    
+    }
+		   
+		 if (swPause) {		
+			var ww1 =  (txt3+" ").replaceAll("–"," ").replaceAll("-"," ").
+					replaceAll(", "," ").replaceAll(" ."," ").replaceAll(". "," ").replaceAll("..."," ").
+					replaceAll("? "," ").replaceAll("! "," ").split(" "); 
+			txt3 = "";
+			for(var g=0; g < ww1.length; g++) {	
+				var ww2 = ww1[g].trim(); 
+				if (ww2 != "") txt3 += ww2 + ". "; 
+			} 
+		 }
+		 
+		if (swNewVoice) {
+			lastNumVoice++; 
+			if (lastNumVoice >= totNumMyLangVoices) lastNumVoice = 0; // to change voice on each cycle
+		} else {
+			lastNumVoice = 0; 
+		}
+	
+    onclick_text_to_speech2(txt3, 7);  	
+
+} // end of onclick_playSynthVoice_m1_row2()
+
+//------------------------------------------
+
+function onclick_playSynthVoice_m1_row3(this1, ixTD, swPause,swNewVoice) {
+	var begix, endix; 
+	
+	var td1 = this1.parentElement;
+	var tr1 = td1.parentElement;
+
+	var id_tr0 = tr1.id.split("_");
+	var numId = parseInt(id_tr0[1]); 	
+	var pre_idtr= id_tr0[0]; 
+	
+	
+	//call_boldCell_ix(this1, ixVoice, "TTS_onclick_ClipSub_Play3");
+
+	var pre_idtr1 = pre_idtr.substr(0,1); 	
+
+	if (pre_idtr1 == "w") {
+		[begix, endix] = word_fromIxToIxLimit
+	} else {
+		pre_idtr1 = ""; 
+		[begix, endix] = fromIxToIxLimit;	
+	}
+
+	var txt1 = "",
+	txt2 = "";
+
+	var id_pref     = pre_idtr1 + "idc_"  ;
+	var id_pref_idb = pre_idtr1 + "idb_"  ;  
+	var id_pref_sp  = pre_idtr1 + "idtts_";
+	
+	//tts_showHide_if_book_opened_from_to(id_pref, id_pref_idb, begix, endix); 
+
+	
+	TTS_LOOP_begix=begix;
+	TTS_LOOP_endix=endix; 
+	TTS_LOOP_swLoop=false; 	
+	
+	var txt3 = "";
+    for (var t1 = begix; t1 <= endix; t1++) {
+		var txtO  = document.getElementById(id_pref    + t1).innerHTML;
+        var txtSp = document.getElementById(id_pref_sp + t1).innerHTML.trim();
+		if (txtSp == "") {
+			txtSp = txtO.trim(); 
+		}
+        txt3 += txtSp + " ";  // separatore di parole = " "    
+    }
+
+	if (swPause) {		
+		var ww1 =  (txt3+" ").replaceAll("–"," ").replaceAll("-"," ").
+		replaceAll(", "," ").replaceAll(" ."," ").replaceAll(". "," ").replaceAll("..."," ").
+		replaceAll("? "," ").replaceAll("! "," ").split(" "); 
+		txt3 = "";
+		for(var g=0; g < ww1.length; g++) {	
+			var ww2 = ww1[g].trim(); 
+			if (ww2 != "") 
+				txt3 += ww2 + ". "; 
+		} 
+	}
+
+	if (swNewVoice) {
+		lastNumVoice++; 
+		if (lastNumVoice >= totNumMyLangVoices) 
+			lastNumVoice = 0; // to change voice on each cycle
+	} else {
+		lastNumVoice = 0; 
+	}
+
+	onclick_text_to_speech2(txt3, 7);  	
+
+} // end of onclick_playSynthVoice_m1_row3()
+//--------------------------------
+function onclick_playSynthVoice_row3(this1, ixTD, swPause,swNewVoice) {
+
+	if (play_or_cancel(this1) < 0) {
+		return;
+	}	
+
+	var ixVoice = ixTD - 1;
+	var thisVoice;
+
+	var td1 = this1.parentElement;
+	var tr1 = td1.parentElement;
+
+	var txt1 = "",
+	txt2 = "";
+
+	var id_tr0 = tr1.id.split("_");
+	var numId = parseInt(id_tr0[1]); 	
+	var pre_idtr= id_tr0[0]; 
+	var pre_idtr1 = pre_idtr.substr(0,1); 
+	
+	if (pre_idtr1 != "w") pre_idtr1 = "";
+	
+	var ele_txt = document.getElementById(pre_idtr1 + "idc_"+ numId); 
+	
+	if (ele_txt == null) return;
+	
+	var ele_tts = document.getElementById(pre_idtr1 + "idtts_" + numId);
+	/**
+	console.log("tr ==>" + tr1.innerHTML);   
+	console.log("word ele_txt id ==>" 	+ 	pre_idtr1 + "idc_"+ numId)
+	console.log("word ele_tts id ==>" 	+ 	pre_idtr1 + "idtts" + numId);
+	**/
+
+	txt1 = ele_txt.innerHTML; // cell[ index 5] = text 	; 
+	txt2 = ele_tts.innerHTML; // text to speak
+
+
+	//boldCell(tr1, this1, ixVoice, "onclick_playSynthVoice_row");
+
+
+	var txt3;
+	if (txt2 == "") txt3 = txt1;
+	else txt3 = txt2;
+
+	if (swPause) {	
+		txt3 = breakTextToPause(txt3, pre_idtr1 ); 
+	}
+	if (swNewVoice) {
+		lastNumVoice++; 
+		if (lastNumVoice >= totNumMyLangVoices) 
+			lastNumVoice = 0; // to change voice on each cycle
+	} else {
+		lastNumVoice = 0; 
+	}
+	//console.log("\nonclick_playSynthVoice_row()  ixTD=" + ixTD + " ixVoice=" + ( ixTD - 1)+ " swNewVoice="+ swNewVoice + "  lastNumVoice=" + lastNumVoice);
+
+	onclick_text_to_speech2(txt3, 4);
+		 
+ } // end of onclick_playSynthVoice_row
+ 
+ //---------------------------
+ 
+	function breakTextToPause(txt3, pre_idtr1) {
+		var g, ww2, txt4="";
+		if (pre_idtr1 == "") { 		
+			var ww1 =  (txt3+" ").replaceAll("–"," ").replaceAll("-"," ").
+				replaceAll(", "," ").replaceAll(" ."," ").replaceAll(". "," ").replaceAll("..."," ").
+				replaceAll("? "," ").replaceAll("! "," ").split(" "); 		
+			
+			for(g=0; g < ww1.length; g++) {	
+				ww2 = ww1[g].trim(); 
+				if (ww2 != "") txt4 += ww2 + ". "; 
+			} 
+		} else {
+			   var txt5 = (txt3+" ").replaceAll("–"," ").replaceAll("-"," ").
+				replaceAll(", "," ").replaceAll(" ."," ").replaceAll(". "," ").replaceAll("..."," ").
+				replaceAll("? "," ").replaceAll("! "," ").trim();
+			
+			for(g=0; g < txt5.length; g++) {
+				ww2 = txt5.charAt(g); 
+				if (ww2 != "") txt4 += ww2 + ", "; 
+			}	
+		}
+		return txt4; 	
+		
+} // end of breakToPause()	
+
+
+//------------------------------------------------------
+function onclick_playSynthVoice_row2(this1, ixTD, swPause,swNewVoice) {
+
+		if (play_or_cancel(this1) < 0) {
+				return;
+			}	
+		
+		 var ixVoice = ixTD - 1;
+	     var thisVoice;
+	     try {
+	         thisVoice = listVox[ixVoice][1];
+	     } catch (e1) {
+	         console.log("script_3 onclick_playSynthVoice_row(this=" + this1.id + " ixTD=" + ixTD + " ixVoice=" + ixVoice);
+	         console.log("script_3 listVox.length=" + listVox.length);
+	         console.log(e1);
+	     }
+	     voice_toUpdate_speech = thisVoice;
+		 
+		 var td1 = this1.parentElement;
+	     var tr1 = td1.parentElement;
+		 
+	     var txt1 = "",
+	         txt2 = "";
+			 
+		 if (tr1.id.substr(0,5) == "idtr_") {
+				var numId= tr1.id.substring(5);
+				var ele_txt = document.getElementById("idc_"+ numId); 
+				if (ele_txt == null) return;
+				var ele_tts = document.getElementById("idtts" + numId);
+				txt1 = ele_txt.innerHTML; // cell[ index 5] = text 	; 
+				txt2 = ele_tts.innerHTML; // text to speak
+				//txt1 = tr1.children[5].children[0].innerHTML; // cell[ index 5] = text 
+	            //txt2 = tr1.children[5].children[3].innerHTML; // text to speak
+				
+				boldCell(tr1, this1, ixVoice, "onclick_playSynthVoice_row");
+				
+		 }  else {
+			    txt1 = ele_orig_line1.innerHTML;
+				txt2 = ele_tts_line1.innerHTML;
+		 } 
+	     var txt3;
+	     if (txt2 == "") txt3 = txt1;
+	     else txt3 = txt2;
+		 
+		 if (swPause) {		
+			var ww1 =  (txt3+" ").replaceAll("–"," ").replaceAll("-"," ").
+					replaceAll(", "," ").replaceAll(" ."," ").replaceAll(". "," ").replaceAll("..."," ").
+					replaceAll("? "," ").replaceAll("! "," ").split(" "); 
+			txt3 = "";
+			for(var g=0; g < ww1.length; g++) {	
+				var ww2 = ww1[g].trim(); 
+				if (ww2 != "") txt3 += ww2 + ". "; 
+			} 
+		 }
+		 
+		if (swNewVoice) {
+			lastNumVoice++; 
+			if (lastNumVoice >= totNumMyLangVoices) lastNumVoice = 0; // to change voice on each cycle
+		} else {
+			lastNumVoice = 0; 
+		}
+	//console.log("\nonclick_playSynthVoice_row()  ixTD=" + ixTD + " ixVoice=" + ( ixTD - 1)+ " swNewVoice="+ swNewVoice + "  lastNumVoice=" + lastNumVoice);
+	    
+		onclick_text_to_speech2(txt3, 4);
+		 
+ } // end of onclick_playSynthVoice_row
+	
+//--------------------------------
+function word_onclick_playSynthVoice_row2(this1, ixWord, swLoop, isWord, is_m1,swNewVoice) {
+	
+	var eleTR = this1.parentElement.parentElement;
+	var id_tr = "";
+	if (eleTR == "TR") {
+		id_tr = eleTR.id; 
+	} 
+	/***
+	//console.log("script_3  word_onclick_OneClipRow_play_Loop3() ixWord=" + ixWord + " numVoice=" + numVoice  + "   id_tr=" + id_tr); 
+
+	var ixVoice = numVoice-1; 
+	if (ixVoice) {
+		voice_toUpdate_speech = listVox[ ixVoice ][1]; 
+	}
+	**/
+	if (swNewVoice) {
+			lastNumVoice++; 
+			if (lastNumVoice >= totNumMyLangVoices) lastNumVoice = 0; // to change voice on each cycle
+	} else {
+			lastNumVoice = 0; 
+	}
+	
+
+	call_boldCell_ix(this1, lastWordNumVoice, "word_onclick_OneClipRow_play_Loop3");
+	
+	onclick_text_to_speech_ix("widc_", ixWord, false, this1);
+	
+} // end of word_onclick_OneClipRow_play_Loop3()	
+
+	
+//--------------------------------------	
+function TOGLIonclick_playSynthVoice_row(this1, ixTD, swPause) {
+
+		if (play_or_cancel(this1) < 0) {
+				return;
+			}	
+		//console.log("onclick_playSynthVoice_row()  ixTD=" + ixTD + " ixVoice=" + ( ixTD - 1));
+		 var ixVoice = ixTD - 1;
+	     var thisVoice;
+	     try {
+	         thisVoice = listVox[ixVoice][1];
+	     } catch (e1) {
+	         console.log("script_3 onclick_playSynthVoice_row(this=" + this1.id + " ixTD=" + ixTD + " ixVoice=" + ixVoice);
+	         console.log("script_3 listVox.length=" + listVox.length);
+	         console.log(e1);
+	     }
+	     voice_toUpdate_speech = thisVoice;
+		 
+		 var td1 = this1.parentElement;
+	     var tr1 = td1.parentElement;
+		 
+	     //boldCell(tr1, this1, ixVoice, "speak_a_voice2");
+		 
+	     var txt1 = "",
+	         txt2 = "";
+			 
+		 if (tr1.id.substr(0,5) == "idtr_") {
+				var numId= tr1.id.substring(5);
+				var ele_txt = document.getElementById("idc_"+ numId); 
+				if (ele_txt == null) return;
+				var ele_tts = document.getElementById("idtts" + numId);
+				txt1 = ele_txt.innerHTML; // cell[ index 5] = text 	; 
+				txt2 = ele_tts.innerHTML; // text to speak
+				//txt1 = tr1.children[5].children[0].innerHTML; // cell[ index 5] = text 
+	            //txt2 = tr1.children[5].children[3].innerHTML; // text to speak
+				
+				boldCell(tr1, this1, ixVoice, "speak_a_voice2");
+				
+		 }  else {
+			    txt1 = ele_orig_line1.innerHTML;
+				txt2 = ele_tts_line1.innerHTML;
+		 } 
+	     var txt3;
+	     if (txt2 == "") txt3 = txt1;
+	     else txt3 = txt2;
+				
+			txt3 = insert_pause(txt3,this1);
+		 
+	     onclick_text_to_speech2(txt3, 4);
+		 
+ } // end of TOGLIonclick_playSynthVoice_row
+		 
+
+//-------------------------------------------
+ 
+function TOGLIonclick_interWordPause(this1) {
+	// "idpau§1§"
+	
+	var elesw = this1.parentElement.children[1];
+	
+	if (elesw.innerHTML == "no") {
+		this1.style.backgroundColor = "green";
+		elesw.innerHTML = "yes"; 
+	} else {
+		this1.style.backgroundColor = "lightgrey"; 
+		elesw.innerHTML = "no"; 
+	}
+	
+}  // toglionclick_interWordPause() 
+
+//---------------------------
+function removeBold_and_Font(txt0) {
+    // I'm sorry<font color="#E5E5E5"> Val I'm frightfully tired but</font>
+    //I&apos;m sorry&lt;font color=&quot;#E5E5E5&quot;&gt; Val I&apos;m frightfully tired but&lt;/font&gt;<br>
+    let txt1 = txt0.trim().toLowerCase();
+    txt1 = txt1.replaceAll("&lt;", "<").replaceAll("&gt;", ">").replaceAll("&apos;", "'").replaceAll("&quot;", '"');
+
+    let j1 = -1;
+    for (let x1 = 0; x1 < txt1.length; x1++) {
+        j1 = txt1.indexOf("<font ");
+        if (j1 < 0) {
+            break;
+        }
+        if (txt1.indexOf("</font>", j1) < 0) {
+            return txt1;
+        }
+        let j2 = txt1.indexOf(">", j1);
+        if (j2 < 0) {
+            break;
+        }
+        txt1 = txt1.substring(0, j1) + txt1.substring(j2 + 1);
+        txt1 = txt1.replace("</font>", "");
+    }
+	txt1 = txt1.replace("< ","<").replace(" >",">").
+			replaceAll("<em>","").replaceAll("</em>","").
+			replaceAll("<strong>","").replaceAll("</strong>","").
+			replaceAll("<b>","").replaceAll("</b>","").replaceAll("<i>","").replaceAll("</i>","").
+			replaceAll("<B>","").replaceAll("</B>","").replaceAll("<I>","").replaceAll("</I>",""); 
+    return txt1;
+	
+} // end of removeBold_and_Font()
+
+//--------------------
+		//--------------
+function play_or_cancel(this1) {
+	if (synth.speaking) { 
+	   //	console.log("\t isplaying on is still running ==> cancel it and exit");
+	   if (ele_last_play) 	ele_last_play.style.backgroundColor = null;
+	   
+	   onclick_speech_cancel(); 
+	   end_speech();
+	   if (this1 == ele_last_play) {  // click on the same line which is running ==> it means ==> I just want to stop it   
+			return -1; 
+	   }
+	   // click not on the sameline running ==> I wanted to stop the last line e start a new one 
+	   
+	}
+	
+	this1.style.backgroundColor = "red";
+	ele_last_play = this1; 
+	return 0; 
+} 
+//===========================================================

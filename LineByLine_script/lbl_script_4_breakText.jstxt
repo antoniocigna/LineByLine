@@ -1,0 +1,145 @@
+"use strict";
+/*  
+ClipByClip: A tool to practice language comprehension
+Antonio Cigna 2021/2022
+license MIT: you can share and modify the software, but you must include the license file 
+*/
+/* jshint strict: true */
+/* jshint esversion: 6 */
+/* jshint undef: true, unused: true */
+//----------------------------------------------
+var currScript = document.currentScript.src; var bar1 = currScript.lastIndexOf("\\");var bar2 = currScript.lastIndexOf("/"); 
+console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) )) ;	
+//----------------------------------------------------------------------------------------
+
+//---------
+function onclick_getOrigTxt() {
+	console.log("===========================  onclick_getOrigTxt() ==="); 
+	var ele_inp = document.getElementById("inp_txtOrig00");	
+	var input_text = ele_inp.value;
+	var output_text;
+	var maxRowLen = document.getElementById("id_maxLeng").value; 
+	if (maxRowLen < 999) { 			
+		output_text = split_into_rows(input_text, maxRowLen);
+		console.log("XXX XXX  XXX XXX  output_text=" +  output_text);
+	} else {
+		output_text = input_text; 
+	}
+	
+	document.getElementById("inp_txtOrig00").value = output_text;
+	document.getElementById("txt_pagOrig").value = output_text;
+	document.getElementById("page0").style.display = "none"; 
+	document.getElementById("page1").style.display = "block"; 
+} 
+//===================================
+function split_into_rows(inpTxt, maxRowLen) {
+
+    var newText = inpTxt.trim().replaceAll("  ", " ").replaceAll("  ", " ").replaceAll("  ", " ").replaceAll("  ", " ").replaceAll("  ", " ").
+	replaceAll("?","?\n").replaceAll("!","!\n").
+    replaceAll(". ", ". \n").replaceAll(" \n", "\n").replaceAll("\n\n", "\n");
+    var rows = newText.split("\n");
+
+	var txt2 = "";	
+	var txtOut=""
+    for (var z1 = 0; z1 < rows.length; z1++) {
+	
+		txt2 = words_from_one_line(rows[z1], "1 "+ z1).trim();
+		
+		console.log("\nXXXXXXXXXXXXXXXXXXXXXX\nz1=" + z1 + " " + txt2); 
+		if ((txt2 == "") || (txt2 == "\n"))  continue;
+		txtOut += "\n" + txt2;
+		console.log("\nz1=" + z1+" txtOU=" + txtOut + "\n---------------\n");
+    }	
+	console.log("XXXXXXXXX  RETURN " +  txtOut.substring(1));
+	return txtOut.substring(1); 
+	
+	//----------------------------
+	
+    function words_from_one_line(rowOne, wh) {
+		console.log("\n\n" + wh + " rowOne=" + rowOne)
+		var textOut = "";       
+		var woFS = rowOne.split(". ");
+		var wo, wo00, wo1, wo1X, zx, z2, j1;
+		
+		wo00 = rowOne.trim();
+		
+		for (zx = 0; zx < woFS.length; zx++) {		
+			wo00 = woFS[zx].trim();
+			if (wo00 == "") break; 
+			console.log("zx="+ zx + "  wo00=" + wo00); 
+			
+			for(var b=0; b < wo00.length; b++) { 
+				//if (b > 50) break;
+				wo1 = wo00.trim(); 
+				console.log("b="+b + "  wo1=" + wo1);
+				if (wo1 == "") break; 
+				if (wo1.length <= maxRowLen) {
+					textOut+="\n" + wo1;
+					console.log("1TEXTOUT=" + textOut);
+					break;					
+				} 
+				wo1X = wo1.substring(0,maxRowLen); 
+
+				console.log("\two1X=" + wo1X) ; 
+				j1 = wo1X.lastIndexOf(";");
+				if (j1 < 0) {j1 = wo1X.lastIndexOf(","); }
+				if (j1 >=0) j1++;  				
+				if (j1 < 0) {j1 = wo1X.lastIndexOf(" "); }
+				if (j1 < 0) { // no comma, neither space backward, try forward 
+					j1 = (wo1+" ").indexOf(" "); 
+				}
+				
+				wo00 = wo1.substring(j1);
+				textOut+="\n" + wo1.substring(0,j1); 	
+				console.log("2TEXTOUT=" + textOut);
+				console.log("\tj1="+j1 + " ok=" +   wo1.substring(0,j1)  +  "   next wo0=" + wo00);  
+			}
+		}		
+		console.log("3TEXTOUT=" + textOut);
+		return textOut;
+    } // end of  words_from_one_line()
+    //----------------------------
+    function TOGLIwords_from_one_line(rowOne) {
+        var pez1 = "";
+        var pez0 = "";
+        var textOut = "";
+       
+		var woFS = rowOne.split(". ");
+		var wo, zx, z2;
+		for (zx = 0; zx < woFS.length; zx++) {
+			wo = woFS[zx].split(" ");
+			pez1 = "";
+			pez0 = "";
+			for (z2 = 0; z2 < wo.length; z2++) {
+				pez0 += wo[z2] + " ";
+				if (pez0.length > maxRowLen) {
+					textOut += "\n" + pez0;
+					pez0 = "";
+				}
+			}
+		}
+		if (pez0 != "") {
+			textOut += "\n" + pez0;
+			pez0 = "";
+			pez1 = pez0;
+		}	
+		return textOut;
+    } // end of TOGLIwords_from_one_line()
+
+} // end of  split_into_rows()
+//---------------------------------
+
+var input_prova = `
+Call me Ishmael.
+Some years ago – never mind how long precisely – having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.
+It is a way I have of driving off the spleen and regulating the circulation. Whenever I find myself growing grim about the mouth; whenever it is a damp, drizzly November in my soul; whenever I find myself involuntarily pausing before coffin warehouses, and bringing up the rear of every funeral I meet; and especially whenever my hypos get such an upper hand of me, that it requires a strong moral principle to prevent me from deliberately stepping into the street, and methodically knocking people’s hats off – then, I account it high time to get to sea as soon as I can.
+This is my substitute for pistol and ball. With a philosophical flourish Cato throws himself upon his sword; I quietly take to the ship. There is nothing surprising in this. If they but knew it, almost all men in their degree, some time or other, cherish very nearly the same feelings towards the ocean with me.
+` ; // fine input_prova
+
+document.getElementById("inp_txtOrig00").value = ""; // input_prova;
+var col1="         1.        2.        3.        4.        5.        6.        7.        8.        9.        0"; 
+var col2="1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"; 
+document.getElementById("inp_txtScale00").value = col1+"\n"+col2; 
+
+
+//==================================================
