@@ -1,7 +1,7 @@
 "use strict";
 /*  
-ClipByClip: A tool to practice language comprehension
-Antonio Cigna 2021/2022
+LineByLine: A tool to practice language comprehension
+Antonio Cigna 2023
 license MIT: you can share and modify the software, but you must include the license file 
 */
 /* jshint strict: true */
@@ -117,10 +117,6 @@ let last_volume = 1;
 let ele_playNextVa_from_hhmmss_value;
 let ele_replayVa_from_hhmmss_value;
 let ele_replayVa_to_hhmmss_value;
-
-let runningButton = false; // if true action following PlayNext... or Repeat buttons  is running, otherwise it's a standard run   
-let save_runningButton = false; // used by pause/continue button
-
 
 let radio_type1_SECONDS = "a";
 let radio_type2_SECS_END_DIALOG = "b";
@@ -262,7 +258,6 @@ let list_elemSub_display = [false, false];
 let line_list_o_number_of_elements = 0;
 let line_list_t_number_of_elements = 0;
 
-let isPlaying = false;
 let sw_sub_onfile = false;
 let sw_sub_orig = false;
 let sw_sub_tran = false;
@@ -271,9 +266,6 @@ let sw_no_subtitle = false; // no subtitles ( neither inside the video, neither 
 let LIMIT_MIN_TIME_CLIP;
 let MIN_ixClip = 0;
 let MAX_ixClip = MAX999;
-
-
-
 
 let inp_row_orig = [];
 let inp_row_tran = [];
@@ -417,7 +409,7 @@ let myVoice;
 let voices  = [];   // all voices from synth.. getVoices() 
 **/
 let listVox = [];   // selected voices only   
-let voiceList=[]; 
+let voiceList2=[]; 
 let totNumMyLangVoices=0; 
 let lastNumVoice = 0; 
 let lastWordNumVoice=0;
@@ -431,7 +423,7 @@ let t_swMove = true;
 let language_parameters=["","",""]; // from Builder parameters
 //---------------------------
 
-let speech = new SpeechSynthesisUtterance();
+//let speech = new SpeechSynthesisUtterance();
 let synth  = window.speechSynthesis;
 
 //------
@@ -520,12 +512,12 @@ var clip_legend = `<hr>
          <tr id="idtr_§1§_m1" class="playBut1" style="display:none; background-color:lightgrey; border-style: inset;">
             <td class="c_m1"></td>
             <td class="c_m1"></td>
-            <td class="playBut1 c_m1"><button class="buttonTD2" id="idb_§1§_m" onclick="onclick_OneClipRow_showHide_sub( this, true)">
+            <td class="playBut1 c_m1"><button class="buttonTD2" id="idb_§1§_m" onclick="onclick_tts_OneClipRow_showHide_sub( this, true)">
                <span style="display:block;font-size:2em;">${openbook_symb}</span>
                <span style="display:none;font-size:2em;">${closedbook_symb}</span></button>
             </td>
             <td class="playBut1 c_m1">
-				<button class="buttonTD2" id="idbT_§1§_m" onclick="onclick_OneClipRow_showHide_tran( this, true)">				
+				<button class="buttonTD2" id="idbT_§1§_m" onclick="onclick_tts_OneClipRow_showHide_tran( this, true)">				
 					<span style="display:none;font-size:2em;height:1.4em; "><span><span style="font-weight:bold;">${show_translation_symb}</span></span></span>
 					<span style="display:block;font-size:2em;height:1.4em;padding:0 0.1em;">
 					<span><span style="font-weight:bold;min-width:4em;">${hide_translation_symb}</span></span></span>
@@ -534,17 +526,17 @@ var clip_legend = `<hr>
             <td class="c_m1"></td>
             <td class="c_m1"></td>		
 			<td class="playBut1 c_m1" >
-				<button class="buttonWhite" onclick="onclick_playSynthVoice_m1_row2(this,§1§,false,false)">
+				<button class="buttonWhite" onclick="onclick_tts_playSynthVoice_m1_row2(this,§1§,false,false)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span>
 				</button>
             </td>
             <td class="playBut1 c_m1">
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_m1_row2(this,§1§,false,true)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_m1_row2(this,§1§,false,true)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">&plus;</span>
                </button>
             </td>
             <td class="playBut1 c_m1">
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_m1_row2(this,§1§,true,false)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_m1_row2(this,§1§,true,false)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">${word_pause_symb}</span>
                </button>
             </td>
@@ -557,27 +549,27 @@ var clip_legend = `<hr>
 	
 	let prototype_tr_tts = `		 
          <tr id="idtr_§1§" style="background-color: lightgrey;width:100%;">
-            <td class="arrow12"><button class="buttonFromToIx" id="b1_§1§" onclick="onclick_arrowFromIx(this, §1§)">
+            <td class="arrow12"><button class="buttonFromToIx" id="b1_§1§" onclick="onclick_tts_arrowFromIx(this, §1§)">
                <span style="font-size:1em;height:1.4em;">${right_arrow_symb}</span></button>
             </td>
-            <td class="arrow12"><button class="buttonFromToIx" id="b2_§1§" onclick="onclick_arrowToIx(  this, §1§)">
+            <td class="arrow12"><button class="buttonFromToIx" id="b2_§1§" onclick="onclick_tts_arrowToIx(  this, §1§)">
                <span style="font-size:1em;height:1.4em;">${left_arrow_symb}</span></button>
             </td>		
             <td class="playBut1">
-               <button class="buttonTD2" id="idb_§1§" onclick="onclick_show_row( this, §1§)">
+               <button class="buttonTD2" id="idb_§1§" onclick="onclick_tts_show_row( this, §1§)">
 				   <span style="display:none;font-size:2em;height:1.4em;">${openbook_symb}</span>
 				   <span style="display:block;font-size:2em;height:1.4em;">${closedbook_symb}</span>
                </button>
             </td>
             <td class="playBut1">
-               <button class="buttonTD2" id="idbT_§1§" onclick="onclick_show_row(this, §1§)">
+               <button class="buttonTD2" id="idbT_§1§" onclick="onclick_tts_show_row(this, §1§)">
 				   <span style="display:none;font-size:2em;height:1.4em; "><span><span style="font-weight:bold;">${show_translation_symb}</span></span></span>
 				   <span style="display:block;font-size:2em;height:1.4em;padding:0 0.1em;"><span>
 				   <span style="font-weight:bold;min-width:4em;">${hide_translation_symb}</span></span></span>
                </button>
             </td>
             <td class="playBut1">
-               <button class="buttonTD2" id="idG_§1§" onclick="onclick_seeWords(this, §1§)">
+               <button class="buttonTD2" id="idG_§1§" onclick="onclick_tts_seeWords(this, §1§)">
 					<span style="font-size:2em;height:1.4em;padding:0 0.1em;"><span>${magnifyingGlass_symb}</span></span>
 			   </button>
             </td>            
@@ -590,17 +582,17 @@ var clip_legend = `<hr>
 				</div>
 			</td>	
             <td class="playBut1" >
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_row2(this,§1§,false,false)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_row2(this,§1§,false,false)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span>
                </button>
             </td>
             <td class="playBut1">
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_row2(this,§1§,false,true)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_row2(this,§1§,false,true)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">&plus;</span>
                </button>
             </td>
             <td class="playBut1">
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_row2(this,§1§,true,false)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_row2(this,§1§,true,false)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">${word_pause_symb}</span>
                </button>
             </td>
@@ -628,7 +620,7 @@ let prototype_word_tr_m1_tts = `
             <td class="c_m1"></td>
             <td class="c_m1"></td>
             <td class="playBut1 c_m1">
-               <button class="buttonTD2" id="widb_§1§_m" onclick="word_onclick_OneClipRow_showHide_sub( this, true, false,true,true)">
+               <button class="buttonTD2" id="widb_§1§_m" onclick="onclick_tts_word_OneClipRow_showHide_sub( this, true, false,true,true)">
                   <span style="display:none;font-size:2em;height:1.4em;">${openbook_symb}</span>
                   <span style="display:block;font-size:2em;height:1.4em;">${closedbook_symb}</span>
 			   </button>	  
@@ -636,17 +628,17 @@ let prototype_word_tr_m1_tts = `
             <td class="c_m1"></td>          
 			
 			<td class="playBut1 c_m1" >
-				<button class="buttonWhite" onclick="onclick_playSynthVoice_m1_row3(this,§1§,false,false)">
+				<button class="buttonWhite" onclick="onclick_tts_playSynthVoice_m1_row3(this,§1§,false,false)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span>
 				</button>
             </td>
             <td class="playBut1 c_m1">
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_m1_row3(this,§1§,false,true)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_m1_row3(this,§1§,false,true)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">&plus;</span>
                </button>
             </td>
             <td class="playBut1 c_m1">
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_m1_row3(this,§1§,true,false)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_m1_row3(this,§1§,true,false)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">${word_pause_symb}</span>
                </button>
             </td>
@@ -658,17 +650,17 @@ let prototype_word_tr_m1_tts = `
 let prototype_word_tr_tts = `				
          <tr id="widtr_§1§" style="background-color: lightgrey;">
             <td class="arrow12">
-			   <button class="buttonFromToIx" id="wb1_§1§" onclick="word_onclick_arrowFromIx(this, §1§, true, false)">
+			   <button class="buttonFromToIx" id="wb1_§1§" onclick="onclick_tts_word_arrowFromIx(this, §1§, true, false)">
 					<span style="font-size:1em;height:1.4em;">${right_arrow_symb}</span>
 			   </button>
             </td>
             <td class="arrow12">
-				<button class="buttonFromToIx" id="wb2_§1§" onclick="word_onclick_arrowToIx(  this, §1§, true, false)">
+				<button class="buttonFromToIx" id="wb2_§1§" onclick="onclick_tts_word_arrowToIx(  this, §1§, true, false)">
 					<span style="font-size:1em;height:1.4em;">${left_arrow_symb}</span>
 			   </button>
             </td>
             <td class="playBut1">
-               <button class="buttonTD2" id="widb_§1§" onclick="word_onclick_show_row( this, §1§, true, false)">		
+               <button class="buttonTD2" id="widb_§1§" onclick="onclick_tts_word_show_row( this, §1§, true, false)">		
 					<span style="display:none;font-size:2em;height:1.4em;">${openbook_symb}</span> 
 					<span style="display:block;font-size:2em;height:1.4em;">${closedbook_symb}</span>				
                </button>
@@ -680,17 +672,17 @@ let prototype_word_tr_tts = `
             </td>
         
            <td class="playBut1 c_m0" >
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_row3(this,§1§,false,false)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_word3(this,§1§,false,false)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span>
                </button>
             </td>
             <td class="playBut1 c_m0">
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_row3(this,§1§,false,true)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_word3(this,§1§,false,true)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">&plus;</span>
                </button>
             </td>
             <td class="playBut1 c_m0">
-               <button class="buttonWhite" onclick="onclick_playSynthVoice_row3(this,§1§,true,false)">
+               <button class="buttonWhite" onclick="onclick_tts_playSynthVoice_word3(this,§1§,true,false)">
 					<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span><span style="font-size:0.9em;">${word_pause_symb}</span>
                </button>
             </td>    
@@ -712,13 +704,13 @@ let prototype_word_tr_tts = `
 			<td class="c_m1"></td>
 			<td class="c_m1"></td>		
 			<td class="playBut1 c_m1"><button class="buttonTD2" id="idb_§1§_m" 
-				onclick="onclick_OneClipRow_showHide_sub( this, true)">
+				onclick="onclick_tts_OneClipRow_showHide_sub( this, true)">
 				<span style="display:block;font-size:2em;">${openbook_symb}</span>
 				<span style="display:none;font-size:2em;">${closedbook_symb}</span></button>
 			</td>  
 						
 			<td class="playBut1 c_m1"><button class="buttonTD2" id="idbT_§1§_m" 
-				onclick="onclick_OneClipRow_showHide_tran( this, true)">				
+				onclick="onclick_tts_OneClipRow_showHide_tran( this, true)">				
 				<span style="display:none;font-size:2em;height:1.4em; "><span>${show_translation_symb}</span></span>
 				<span style="display:block;font-size:2em;height:1.4em;padding:0 0.1em;">
 				<span>${hide_translation_symb}</span></span></button>
@@ -729,14 +721,14 @@ let prototype_word_tr_tts = `
 
 	//----------------------------
 	let str_td_m1_playVideo = `				
-			<td class="playBut1 c_m1" ><button class="buttonTD2" id="sp§1§_no1" onclick="onclick_playVideo_m1_row(this)">
+			<td class="playBut1 c_m1" ><button class="buttonTD2" id="sp§1§_no1" onclick="onclick_tts_playVideo_m1_row(this)">
 				<span style="font-size:2em;">${speakinghead_symb}</span></button>
 			</td>  
 		`; // end str_td_m1_playVideo 	
 	//---------------------
 	let str_td_m1_playVideoLoop = `
 			<td class="playBut1 c_m1">
-					<button class="buttonTD2" id="sp§1§_ye1" onclick="onclick_playVideo_m1_rowLoop(this)" style="font-size:1.0em;">${playLoop_symb}</button>
+					<button class="buttonTD2" id="sp§1§_ye1" onclick="onclick_tts_playVideo_m1_rowLoop(this)" style="font-size:1.0em;">${playLoop_symb}</button>
 			</td> 	
 		`; // end str_td_m1_playVideoLoop	
 	//---------------------
@@ -763,26 +755,26 @@ let prototype_word_tr_tts = `
 	//---------------------
 	let str_tr_xx_1 = ` 
 		<tr id="idtr_§1§" style="background-color: lightgrey;width:100%;"> 	
-			<td class="arrow12"><button class="buttonFromToIx" id="b1_§1§" onclick="onclick_arrowFromIx(this, §1§)">
+			<td class="arrow12"><button class="buttonFromToIx" id="b1_§1§" onclick="onclick_tts_arrowFromIx(this, §1§)">
 				<span 	style="font-size:1em;height:1.4em;">→</span></button>
 			</td>  
-			<td class="arrow12"><button class="buttonFromToIx" id="b2_§1§" onclick="onclick_arrowToIx(  this, §1§)">
+			<td class="arrow12"><button class="buttonFromToIx" id="b2_§1§" onclick="onclick_tts_arrowToIx(  this, §1§)">
 				<span style="font-size:1em;height:1.4em;">←</span></button>
 			</td>  		
 			<td class="playBut1">
-				<button class="buttonTD2" id="idb_§1§" onclick="onclick_show_row( this, §1§)">
+				<button class="buttonTD2" id="idb_§1§" onclick="onclick_tts_show_row( this, §1§)">
 					<span style="display:none;font-size:2em;height:1.4em;">${openbook_symb}</span>
 					<span style="display:block;font-size:2em;height:1.4em;">${closedbook_symb}</span>
 				</button>
 			</td> 		
 			<td class="playBut1">
-				<button class="buttonTD2" id="idbT_§1§" onclick="onclick_show_row(this, §1§)">
+				<button class="buttonTD2" id="idbT_§1§" onclick="onclick_tts_show_row(this, §1§)">
 					<span style="display:none;font-size:2em;height:1.4em; "><span>${show_translation_symb}</span></span>
 					<span style="display:block;font-size:2em;height:1.4em;padding:0 0.1em;"><span>${hide_translation_symb}</span></span>
 				</button>
 			</td>  					
 			<td class="playBut1">
-				<button class="buttonTD2" id="idG_§1§" onclick="onclick_seeWords(this, §1§)">
+				<button class="buttonTD2" id="idG_§1§" onclick="onclick_tts_seeWords(this, §1§)">
 					<span style="font-size:2em;height:1.4em;padding:0 0.1em;"><span>${magnifyingGlass_symb}</span>
 				</button>
 			</td>
@@ -800,7 +792,7 @@ let prototype_word_tr_tts = `
 	//---------------------			
 	let str_td_xx_playVideo = `			
 			<td class="playBut1">
-				<button class="buttonTD2" id="sp§1§" onclick="onclick_playVideo_row(this, §1§)">
+				<button class="buttonTD2" id="sp§1§" onclick="onclick_tts_playVideo_row(this, §1§)">
 				<span style="font-size:2em;height:1.4em;">${speakinghead_symb}</span>
 				</button>
 			</td>    
@@ -809,21 +801,21 @@ let prototype_word_tr_tts = `
 	//-------		
 	let str_td_xx_playVideoLoop = `		
 			<td class="playBut1">
-				<button class="buttonTD2 " onclick="onclick_playVideo_rowLoop(this,§1§)" style="font-size:1.0em;">${playLoop_symb}
+				<button class="buttonTD2 " onclick="onclick_tts_playVideo_rowLoop(this,§1§)" style="font-size:1.0em;">${playLoop_symb}
 				</button>
 			</td>   
 			` ; // end str_td_xx_playVideoLoop
 	//--------		
 	let str_td_xx_playTTS_Loop = `		
 			<td class="playBut1">
-				<button class="buttonTD2 " onclick="onclick_playTTS_rowLoop(this,§1§)" style="font-size:1.0em;">${playLoop_symb}
+				<button class="buttonTD2 " onclick="onclick_tts_playTTS_rowLoop(this,§1§)" style="font-size:1.0em;">${playLoop_symb}
 				</button>
 			</td>   
 			` ; // end str_td_xx_playTTS_Loop()		
 	//------------------				
 	let str_td_xx_insertPause = `	
 			<td class="playBut1">
-				<button class="buttonWhite" onclick="onclick_interWordPause(this,§1§)" style="font-size:0.9em;">&#x1d110;
+				<button class="buttonWhite" onclick="onclick_tts_interWordPause(this,§1§)" style="font-size:0.9em;">&#x1d110;
 				</button>
 			</td> 
 			` ; // end str_td_xx_insertPause 	
@@ -857,7 +849,7 @@ let word_tr_fant = `
 		<tr id="widtr_§1§_m1"  class="playBut1" style="display:none;background-color:lightgrey; border-style: inset;">
 			<td class="c_m1"></td>
 			<td class="c_m1"></td>		
-			<td class="playBut1 c_m1"><button class="buttonTD2" id="widb_§1§_m" onclick="word_onclick_OneClipRow_showHide_sub( this, true, false,true,true)">
+			<td class="playBut1 c_m1"><button class="buttonTD2" id="widb_§1§_m" onclick="onclick_tts_word_OneClipRow_showHide_sub( this, true, false,true,true)">
 				<span style="display:none; font-size:2em;">${openbook_symb}</span>
 				<span style="display:block;font-size:2em;">${closedbook_symb}</span></button>
 			</td>  	
@@ -871,14 +863,14 @@ let word_tr_fant = `
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 let word_tr_allclip = ` 
 		<tr id="widtr_§1§" style="background-color: lightgrey;"> 	
-			<td class="arrow12"><button class="buttonFromToIx" id="wb1_§1§" onclick="word_onclick_arrowFromIx(this, §1§, true, false)">
+			<td class="arrow12"><button class="buttonFromToIx" id="wb1_§1§" onclick="onclick_tts_word_arrowFromIx(this, §1§, true, false)">
 				<span 	style="font-size:1em;height:1.4em;">→</span></button>
 			</td>  
-			<td class="arrow12"><button class="buttonFromToIx" id="wb2_§1§" onclick="word_onclick_arrowToIx(  this, §1§, true, false)">
+			<td class="arrow12"><button class="buttonFromToIx" id="wb2_§1§" onclick="onclick_tts_word_arrowToIx(  this, §1§, true, false)">
 				<span style="font-size:1em;height:1.4em;">←</span></button>
 			</td>  		
 			<td class="playBut1">
-				<button class="buttonTD2" id="widb_§1§" onclick="word_onclick_show_row( this, §1§, true, false)">
+				<button class="buttonTD2" id="widb_§1§" onclick="onclick_tts_word_show_row( this, §1§, true, false)">
 					<span style="display:none;font-size:2em;height:1.4em;">${openbook_symb}</span> \n
 					<span style="display:block;font-size:2em;height:1.4em;">${closedbook_symb}</span>
 				</button>

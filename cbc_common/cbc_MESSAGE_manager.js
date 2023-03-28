@@ -191,8 +191,10 @@ function messageMain( parm_pgm_ABCH, parm_lang00) {
 }
 //------------------------------------
 function get_languageName( en_GB ) {
-	var id_lang, id_country;	  
-	[id_lang, id_country] = (en_GB+"--").replace("_","-").split("-");
+	
+	var la =  (en_GB+"--").replaceAll("_","-").split("-");	
+	var id_lang    = la[0];
+	var id_country = la[1]; 
 	
 	if (myLocalLanguage == "xx") {
 		myLocalLanguage = "en";
@@ -206,7 +208,7 @@ function get_languageName( en_GB ) {
 	if (id_lang != "")    r_lang    = languageExt.of( id_lang    ); 
 	if (id_country != "") r_country = countryExt.of(  id_country );  
 	
-	r_lang = r_lang.substr(0,1).toUpperCase() + r_lang.substr(1); 
+	r_lang    = r_lang.substr(0,1).toUpperCase()    + r_lang.substr(1); 
 	r_country = r_country.substr(0,1).toUpperCase() + r_country.substr(1); 
 	
 	return r_lang + " - " + r_country;  

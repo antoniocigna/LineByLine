@@ -1,37 +1,16 @@
- "use strict";
-  /*  
-  ClipByClip A tool to practice language comprehension
-  Antonio Cigna 2021/2022
-  license MIT: you can share and modify the software, but you must include the license file 
-  */
-  /* jshint strict: true */
-  /* jshint esversion: 6 */
-  /* jshint undef: true, unused: true */
-  //
-  //-----------------------------------------------------------------
-  /**
-  // something to test	
-  
-  try{ 
-		 document.getElementById("txt_pagOrig").value = input_prova; 
-		 document.getElementById("txt_pagTrad").value = "" ;
-  } catch(e1) {
-  
-  } 	
- **/	
-  /***
-  document.getElementById("txt_pagOrig").value = "" +
-		"Call me Ishmael.\n" +
-		"Some years ago – never mind how long precisely – " +
-		"having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world." +
-		"";
-  document.getElementById("txt_pagTrad").value = "" +
-		"Chiamami Ismaele.\nAlcuni anni fa – non importa quanti esattamente – " +
-		"avendo poco o nessun denaro in borsa, e niente di particolare che mi interessasse a terra, pensai di navigare un po' e vedere la parte acquatica del mondo." +
-		""; 
- ***/ 		
- // end of something to test 		
- //------------		
+"use strict";
+/*  
+LineByLine: A tool to practice language comprehension
+Antonio Cigna 2023
+license MIT: you can share and modify the software, but you must include the license file 
+*/
+/* jshint strict: true */
+/* jshint esversion: 6 */
+/* jshint undef: true, unused: true */
+//----------------------------------------------
+var currScript = document.currentScript.src; var bar1 = currScript.lastIndexOf("\\");var bar2 = currScript.lastIndexOf("/"); 
+console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) )) ;	
+//----------------------------------------------------------------------------------------
 
   var page1 = document.getElementById("page1");
   var page2 = document.getElementById("page2");
@@ -41,29 +20,11 @@
   var builder_orig_subtitles_string = "";
   var builder_tran_subtitles_string = "";
 
-
-
   var sw_inp_sub_orig_builder = false;
   var sw_inp_sub_tran_builder = false;
 
   const TRANSLATION_NOT_WANTED = "...";
-
-  /****
-       var SILENT_GAP_LIMIT = 2; // limit in seconds 
-       //  if there is time gap  ==> add something to the to_time of the previous and subtract something from the present line    
-       //  if the gap is too much large insert a new line with a button to skip it 
-       var SILENT_GAP_LIMIT2 = 2 * SILENT_GAP_LIMIT; // limit in seconds 
-       const MARK_orig = "orig";
-       const MARK_tran = "tran";
-       const NO_TEXT_NO_SUBTITLES = "NO_TEXT_NO_SUBTITLES";
-       const NO_VIDEO_AUDIO_FILE = "noVIDEO_noAUDIO";
-       const NO_VIDEO_TIME_INCR = 1.000;
-       var sw_thereIs_noSub = false;
-       var sw_inpSRT_only = true;
-       var sw_srt_error = false;
-       var sw_is_no_videoaudio = false;
-  	 ***/
-
+ 
   var sw_translation_not_wanted = false;
   var selected_voice_language = "XX,0,0"; //  language id, number of voices eg. en-GB Microsoft ...  , index of chosen voice 
   var selected_voice_ix = 0;
@@ -73,29 +34,13 @@
   //----------------------
 
 
-  load_all_voices();
+  fcommon_load_all_voices();  // at end calls tts_1_toBeRunAfterGotVoices()
 
   // WARNING: the above function contains asynchronous code.  
   // 			Any statement after this line is executed immediately without waiting its end
 
  //-------------------------------------------------
-  function onclick_getInput(elepage) {
-
-      if (h1_join_orig_trad() < 0) {
-          return;
-      }
-
-      var elepage1 = document.getElementById("page1");
-      var elepage2 = document.getElementById("page2");
-      if (elepage == elepage1) {
-          elepage2.style.display = "block";
-      } else {
-          elepage1.style.display = "block";
-      }
-      elepage.style.display = "none";
-  }
-  //---------------------------------
-  function toBeRunAfterGotVoices() {
+  function tts_1_toBeRunAfterGotVoices() {
 
       if (voices.length < 1) return;
 
@@ -108,73 +53,85 @@
       var pLang4;
       var numL2 = 0;
       var numL4 = 0;
-	  
+	  var langName;
       var ixSele = -1;
 	  var sele_str = "";
+	  var selected_yes="selected"; 
+	  var swSele=false; 
 	  
       for (var z1 = 0; z1 < voices.length; z1++) {
+		  swSele = false; 
           var lang = voices[z1].lang;
           var lang2 = lang.substr(0, 2);
           if (lang != pLang4) {
               //console.log(lang);
               numL4++;
               if (lang2 != pLang2) {
+				  langName = get_languageName(lang).split("-")[0].trim(); 
                   numL2++;
                   sele_str += '   </optgroup> \n';
-                  sele_str += '   <optgroup label="' + lang2 + '"> \n';
+                  sele_str += '   <optgroup label="' + lang2 + ' ' + langName + '"> \n';
               }
           }
 		  
-		  sele_str += '      <option value="' + z1 + '">' + lang + " " + voices[z1].name +  '</option> \n';
 		  if (lang == "en-GB") {
 			if (ixSele < 0) {
 				ixSele=z1;
-				sele_str += '      <option value="' + z1 + '" selected>' + lang + " " + voices[z1].name +  '</option> \n';
 			}	
 		  }
-		  
+		  if (ixSele == z1) {
+				sele_str += '      <option value="' + z1 + '" selected>' + lang + " " + voices[z1].name +  '</option> \n';
+		  } else {
+			  sele_str += '      <option value="' + z1 + '">' + lang + " " + voices[z1].name +  '</option> \n';
+		  }		
+		 
           pLang4 = lang;
           pLang2 = lang2;
-      }
-	   
-	
-	   
-          pLang4 = lang;
+      }	  
+	  pLang4 = lang;
       sele_str += '   </optgroup> \n';
+	  
       let voiceSelect = document.getElementById("id_voices");
       voiceSelect.innerHTML = sele_str;
-	  
-	  voiceSelect.children[ ixSele].selected = true;
-	  
-	get_oneLangVoice(  voiceSelect );	  
+	  /**	
+	  for(var g1=0; g1 < voiceSelect.children.length; g1++) {
+		  var gr1 = voiceSelect.children[g1]; 
+		  console.log("voiceSelect " + g1 + " gr1= " + gr1.outerHTML);    
+	  } 
+	  **/	  
+   	  
+	  onclick_tts_get_oneLangVoice(  voiceSelect );	  
 	
 	  
   } // end of toBeRunAfterGotVoices()
 
   //===============
   //--------------------------------------------------
-  function get_orig_subtitle2() {
+ function tts_1_get_orig_subtitle2() {
       /**
 	
          console.log("get_orig" + "\n\t value=" +  document.getElementById("txt_pagOrig").value +
          						"\n\t fromText_to_srt=" +  fromText_to_srt(   document.getElementById("txt_pagOrig").value.trim() )  ); 
          **/
       var msgerr1 = "";
-      //builder_orig_subtitles_string = fromText_to_srt(  document.getElementById("txt_pagOrig").value.trim() ) ;
+    
       builder_orig_subtitles_string = document.getElementById("txt_pagOrig").value.trim();
       if (builder_orig_subtitles_string != "") {
           sw_inp_sub_orig_builder = true;
       } else {
           sw_inp_sub_orig_builder = false;
-          msgerr1 += "<br>" + getMsgId("ma22"); //  ma22 the source language subtitle file  has not been read or is empty" ;         
+          msgerr1 += "<br>" + tts_1_getMsgId("m132"); //  ma22 the source language subtitle file  has not been read or is empty" ;         
       }
-
+	  inp_row_orig = builder_orig_subtitles_string.split("\n") ;
+	  inp_row_orig.push("");    
+	  numOrig = inp_row_orig.length;
+	
       return msgerr1;
 
   } // end of get_orig_subtitle2()
   //--------------------------------------------------
 
-  function get_tran_subtitle2(msgerrOrig) {
+  function tts_1_get_tran_subtitle2(msgerrOrig) {
       /**
       	console.log("get_tran" + "\n\t value=" +  document.getElementById("txt_pagTrad").value +
       						"\n\t fromText_to_srt=" +  fromText_to_srt(    document.getElementById("txt_pagTrad").value.trim() )  ); 
@@ -190,25 +147,29 @@
           sw_inp_sub_tran_builder = false;
           if (sw_translation_not_wanted == false) {
 			console.log("anto1   msgerrOrig=" + msgerrOrig)
-              msgerr1 += "<br>" + getMsgId("ma23"); //  ma23  translated subfile missing     					
+              msgerr1 += "<br>" + tts_1_getMsgId("m133"); //    translated subfile missing     					
               if (msgerrOrig == "") { // only if original srt is Ok  
-                  msgerr1 += "<br>" + getMsgId("ma26").replace("§...§", TRANSLATION_NOT_WANTED); // if there is no translation
+                  msgerr1 += "<br>" + tts_1_getMsgId("m134").replace("§...§", TRANSLATION_NOT_WANTED); // if there is no translation
 			  }
           }
       }
+	  inp_row_tran = builder_tran_subtitles_string.split("\n");
+	  inp_row_tran.push(""); 
+	  numTran = inp_row_tran.length;  
+	  
       return msgerr1;
 
-  } // end of get_tran_subtitle2()
+  } // end of tts_1_get_tran_subtitle2()
 
   //--------------------------
-  function h1_join_orig_trad() {
+  function tts_1_join_orig_trad() {
       document.getElementById("id_msg16").innerHTML = "";
 
       sw_translation_not_wanted = false;
 
       var msgerr0 = "";
-      var msgerr1 = get_orig_subtitle2(); // get orig. text /srt
-      var msgerr2 = get_tran_subtitle2(msgerr1); // get tran. text/srt	
+      var msgerr1 = tts_1_get_orig_subtitle2(); // get orig. text /srt
+      var msgerr2 = tts_1_get_tran_subtitle2(msgerr1); // get tran. text/srt	
 
       msgerr0 += msgerr1 + msgerr2;
       var msgerr3 = "";
@@ -216,7 +177,7 @@
       msgerr0 += msgerr3;
 
       if (msgerr0 != "") {
-          putMsgerr(msgerr0);
+          tts_1_putMsgerr(msgerr0);
           document.getElementById("id_msg16").style.color = "red";
           return -1;
       }
@@ -225,16 +186,16 @@
       console.log("ORIG =" + builder_orig_subtitles_string);
       console.log("TRAN =" + builder_tran_subtitles_string);
 	  
-	  get_wantedVoices_X();  	  
-	  toBeRunAfterGotVoicesPLAYER(); 
+	  tts_1_get_wantedVoices_X();  	  
+	  tts_9_toBeRunAfterGotVoicesPLAYER(); 
 
       return 0;
 
-  } // end of h1_join_orig_trad()
+  } // end of tts_1_join_orig_trad()
 
   //----------------------
 
-  function putMsgerr(msgerr1) {
+  function tts_1_putMsgerr(msgerr1) {
       if (msgerr1 == "") {
           document.getElementById("id_msg16").style.display = "none";
       } else {
@@ -250,10 +211,10 @@
 
   //--------------------------------
 
-  function getMsgId(id1) {  
+  function tts_1_getMsgId(id1) {  
 	var ele1 = document.getElementById(id1);  
 	if (ele1 == null) {		
-		console.log("msg " + id1 + "  getMsgId() non trovato"  );
+		console.log("msg " + id1 + "  tts_1_getMsgId() non trovato"  );
 		return "";
 	}	
     return ele1.innerHTML;
@@ -263,7 +224,7 @@
   
 //-------------------------
 
-function get_wantedVoices_X() { 
+function tts_1_get_wantedVoices_X() { 
 
 	var selected_language_fromBuilder = selected_voice_language;
 	
@@ -283,20 +244,9 @@ function get_wantedVoices_X() {
 	console.log("parameters from Builder: language '" + selected_lang_id  + "' num.Voices=" + selected_numVoices); 
 	
 } // end of  get_wantedVoices_X()
-//---------------------------
-//-------------
-function get_oneLangVoice(this1) {
-	var ix = this1.value; 		
-	document.getElementById("id_ext_language").innerHTML =  get_languageName( voices[ix].lang ) ; 
-	myVoice = voices[ix].lang + " " + voices[ix].name;  
-	document.getElementById("id_myLang").innerHTML = myVoice;  
-	selected_voice_ix = ix; 
-	get_languagePlayer(ix); 
-	   
-} // 
 
 //-------------------------------------
-function  get_languagePlayer(ix) {
+function tts_1_get_languagePlayer(ix) {
 
 	var aVoice = document.getElementById("id_myLang").innerHTML;
 	var voi = aVoice.split(" ");
@@ -313,7 +263,12 @@ function  get_languagePlayer(ix) {
 	var lan1 = document.getElementById("m002").innerHTML ;
 	var lan2 = document.getElementById("m003").innerHTML
 	document.getElementById("id_lang2").innerHTML = "  (" + lan1 + " " + voice2 + ", " + nn + " " + lan2 + ")" ;
-			
+	
+	//console.log("tts_1_get_languagePlayer(ix) " + " voices.length=" + voices.length + 
+	//	"\n\t  selected_voice_language=" + selected_voice_language + "\n\t id_lang2 = " +document.getElementById("id_lang2").innerHTML ); 
+		
+		
+		
 } // end of get_language()
 
 //--------------

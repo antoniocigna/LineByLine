@@ -17,7 +17,7 @@ console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) 
 let numLoadVoiceIteration=0 ;
 //-----------------------------------
 
-function load_all_voices() {
+function fcommon_load_all_voices() {
 
 	console.log("xxxxxxxxxxxxxxxxxxxx  load_all_voices:  interation "  + (1+numLoadVoiceIteration) );  
 	//---------------------------------
@@ -38,14 +38,14 @@ function load_all_voices() {
 		if ((numLocal < 1) || (numRemote < 1)) {
 			if (numLoadVoiceIteration < 2) {
 				numLoadVoiceIteration++ ;
-				setTimeout(load_all_voices, 500);
+				setTimeout(fcommon_load_all_voices, 500);
 			} else {
 				// too many unsuccessful attempts, get what there is; 
-				esegui_Carico();
+				use_the_voices();
 			}
 		} else {   
 			//console.log("== ok == " + numLoadVoiceIteration); 
-			esegui_Carico();
+			use_the_voices();
 		}
 	} // end of load_ok
 	//---------------------------------
@@ -71,14 +71,14 @@ function load_all_voices() {
 		function(error)  { voices_load_error(error);}
 	);
 	//----------------------------------
-	function esegui_Carico() {
+	function use_the_voices() {
 		/**
 		for(var g=0; g < voices.length; g++) {
 			console.log("\t" + voices[g].lang + " " + voices[g].name + " \t localService=" + voices[g].localService); 
 		}
 		**/
 		
-		toBeRunAfterGotVoices(); 
+		tts_1_toBeRunAfterGotVoices(); 
 
 	}	
 	//-----------------------------

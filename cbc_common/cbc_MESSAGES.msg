@@ -80,8 +80,8 @@ function get_messages() {
 		<Vm013>word<br>by<br>word</Vm013>	
 		<Vm014> A tool to  <br>improve foreign language comprehension</Vm014>	
 		<Vm015>by listening to a text <br>read line by line, word by word</Vm015>	
-		<Vm016>Paste the text in the original language here below</Vm016>		
-		<Vm017>Paste the translation line by line here below </Vm017>
+		<Vm016>Paste the <b>§1§</b> text here below</Vm016>		
+		<Vm017>Paste the line by line translation here below </Vm017>
 		<Vm018>(if it doesn't exist write 3 dots ...)</Vm018>						
 		<Vm100><b>To synchronize subtitles with speech</b></Vm100>
 		<Vm101><ul><li>Select a group of subtitle lines </li></ul></Vm101>
@@ -105,8 +105,8 @@ function get_messages() {
 		<Vm119>Bilingual Text</Vm119>	
 		<Vm120>spoken in</Vm120>	
 		<Vm121>text</Vm121>
-		<Vm122>Play chosen voice</Vm122>                          
-        <Vm123>Play next voice</Vm123>    
+		<Vm122>Play the chosen voice</Vm122>                          
+        <Vm123>Play a voice in turn</Vm123>    
 		<Vm124>Play pause between words</Vm124>
         <Vm125>N.</Vm125>	
 		<Vm126>Pitch</Vm126>
@@ -114,7 +114,14 @@ function get_messages() {
 		<Vm128>Pause</Vm128>
 		<Vm129>Resume</Vm129>
 		<Vm130>Cancel</Vm130>		
-		<Vm131>Go Back</Vm131>  
+		<Vm131>Go Back</Vm131>  		
+		<Vm132>the text in source language is missing</Vm132>	
+		<Vm133>the translated text is missing</Vm133>	
+		<Vm134>but if that's ok, write 3 dots in a row <b>§...§</b></Vm134>  	
+		<Vm135>Select the first voice to read the text</Vm135>
+		<Vm136>the other voices in the same language will read in turn</Vm136>
+		<Vm137>continue</Vm137>
+		<Vm138>§1§ text</Vm138>
 	</lang_en>	
 	<lang_it>
 		<id_language>it</id_language>	
@@ -130,7 +137,7 @@ function get_messages() {
 		<Vm013>parola<br>per<br>parola</Vm013>
 		<Vm014>Uno strumento per <br>migliorare la comprensione delle lingue straniere</Vm014>
 		<Vm015>ascoltando un testo <br>letto riga per riga, parola per parola</Vm015>
-		<Vm016>Incolla qui sotto il testo in lingua originale</Vm016>
+		<Vm016>Incolla qui sotto il testo in <b>§1§</b></Vm016>
 		<Vm017>Incolla la traduzione riga per riga qui sotto </Vm017>
 		<Vm018>(se non esiste scrivere 3 punti...)</Vm018>
 		<Vm100><b>Per sincronizzare i sottotitoli con il parlato</b></Vm100>
@@ -155,8 +162,8 @@ function get_messages() {
 		<Vm119>Testo bilingue</Vm119>
 		<Vm120>parlato in</Vm120>	
 		<Vm121>testo</Vm121>	
-		<Vm122>Play voce scelta</Vm122>                          
-        <Vm123>Play voce seguente</Vm123>    
+		<Vm122>Play la voce scelta</Vm122>                          
+        <Vm123>Play una voce a turno</Vm123>    
 		<Vm124>Play pausa tra le parole</Vm124>
         <Vm125>N.</Vm125>	
 		<Vm126>Tono</Vm126>
@@ -165,6 +172,13 @@ function get_messages() {
 		<Vm129>Riprendi</Vm129>
 		<Vm130>Annulla</Vm130>
 		<Vm131>Indietro</Vm131>  
+		<Vm132>manca il testo in lingua originale</Vm132>	
+		<Vm133>manca la traduzione</Vm133>	
+		<Vm134>ma se va bene così, scrivi al suo posto 3 puntini di seguito <b>§...§</b></Vm134>  	
+		<Vm135>Seleziona la prima voce che dovrà leggere il testo</Vm135>
+		<Vm136>le altre voci nella stessa lingua leggeranno a turno</Vm136>
+		<Vm137>continua</Vm137>
+		<Vm138>testo §1§</Vm138>
 	</lang_it>
 </messages>	
 `; // end of xml_text ( ` alt + 96 )
