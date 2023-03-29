@@ -122,6 +122,8 @@ function get_messages() {
 		<Vm136>the other voices in the same language will read in turn</Vm136>
 		<Vm137>continue</Vm137>
 		<Vm138>§1§ text</Vm138>
+		<Vm139>specify the maximum line length</Vm139>
+		<Vm140>continue</Vm140>
 	</lang_en>	
 	<lang_it>
 		<id_language>it</id_language>	
@@ -179,6 +181,9 @@ function get_messages() {
 		<Vm136>le altre voci nella stessa lingua leggeranno a turno</Vm136>
 		<Vm137>continua</Vm137>
 		<Vm138>testo §1§</Vm138>
+		<Vm139>specifica la lunghezza massima delle righe</Vm139>  
+		<Vm140>continua</Vm140>	
+		
 	</lang_it>
 </messages>	
 `; // end of xml_text ( ` alt + 96 )
