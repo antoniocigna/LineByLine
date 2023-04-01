@@ -78,8 +78,11 @@ function get_messages() {
 		<Vm007>show / hide<br>text</Vm007>
 		<Vm008>show / hide<br>translation</Vm008>			
 		<Vm013>word<br>by<br>word</Vm013>	
-		<Vm014> A tool to  <br>improve foreign language comprehension</Vm014>	
-		<Vm015>by listening to a text <br>read line by line, word by word</Vm015>	
+		<Vm014>A tool to <br>improve foreign language §oralcomprehension§</Vm014>	
+		<Vm015>by listening to a text <br>read one line at time, one word at time
+			<br><br>at each click the row or word is read by the indicated voice
+			<br>even at reduced speed if required
+		</Vm015>	
 		<Vm016>Paste the <b>§1§</b> text here below</Vm016>		
 		<Vm017>Paste the line by line translation here below </Vm017>
 		<Vm018>(if it doesn't exist write 3 dots ...)</Vm018>						
@@ -124,6 +127,7 @@ function get_messages() {
 		<Vm138>§1§ text</Vm138>
 		<Vm139>specify the maximum line length</Vm139>
 		<Vm140>continue</Vm140>
+		<Vm141>oral comprehension</Vm141>	
 	</lang_en>	
 	<lang_it>
 		<id_language>it</id_language>	
@@ -137,8 +141,11 @@ function get_messages() {
 		<Vm007>mostra / nascondi<br>testo</Vm007>
 		<Vm008>mostra / nascondi<br>traduzione</Vm008>		
 		<Vm013>parola<br>per<br>parola</Vm013>
-		<Vm014>Uno strumento per <br>migliorare la comprensione delle lingue straniere</Vm014>
-		<Vm015>ascoltando un testo <br>letto riga per riga, parola per parola</Vm015>
+		<Vm014>Uno strumento per migliorare la<br>§oralcomprehension§<br> delle lingue straniere</Vm014>
+		<Vm015>ascoltando un testo <br>letto una riga per volta, una parola per volta
+			<br><br>ad ogni click la riga o la parola viene letta dalla voce indicata 
+			<br>anche a velocità ridotta se richiesto   
+		</Vm015>
 		<Vm016>Incolla qui sotto il testo in <b>§1§</b></Vm016>
 		<Vm017>Incolla la traduzione riga per riga qui sotto </Vm017>
 		<Vm018>(se non esiste scrivere 3 punti...)</Vm018>
@@ -183,7 +190,7 @@ function get_messages() {
 		<Vm138>testo §1§</Vm138>
 		<Vm139>specifica la lunghezza massima delle righe</Vm139>  
 		<Vm140>continua</Vm140>	
-		
+		<Vm141>comprensione orale</Vm141>	
 	</lang_it>
 </messages>	
 `; // end of xml_text ( ` alt + 96 )

@@ -55,9 +55,12 @@ function onclick_tts_get_oneLangVoice(this1) {
 	
 	myVoice = voices[ix].lang + " " + voices[ix].name;  
 	document.getElementById("id_myLang").innerHTML = myVoice;  
-	selected_voice_ix = ix; 
+	selected_voice_ix        = ix; 	
+	selected_voiceLangRegion =  voices[ix].lang	
+	selected_voiceLang2      =  selected_voiceLangRegion.substr(0,2);
+	selected_voiceName       =  voices[ix].name
 	
-	tts_3_show_speakingVoiceFromVoiceLangName(voices[ix].lang, voices[ix].name);
+	tts_3_show_speakingVoiceFromVoiceLangName(selected_voiceLangRegion, selected_voiceName);
 		
 	//console.log("onclick_tts_get_oneLangVoice() " + " selected_voice_ix=" + selected_voice_ix + "  id_my_lang = myVoice =" + myVoice);  
 	
@@ -167,7 +170,7 @@ function onclick_tts_arrowToIx( this1, z3 ) {
 
 
 function onclick_tts_playSynthVoice_row2(this1, ixTD123, swPause,swNewVoice) {
-
+		//console.log("1 onclick_tts_playSynthVoice_row2()"); 
 		if (tts_3_play_or_cancel(this1) < 0) {
 				return;
 			}	
@@ -178,7 +181,7 @@ function onclick_tts_playSynthVoice_row2(this1, ixTD123, swPause,swNewVoice) {
 		} else {
 			lastNumVoice = 0; 
 		}		
-	    
+	    //console.log("2 onclick_tts_playSynthVoice_row2() lastNumVoice=" + lastNumVoice);  
 	    voice_toUpdate_speech = listVox[lastNumVoice][1]  ;  
 		 
 		 var td1 = this1.parentElement;
@@ -186,7 +189,9 @@ function onclick_tts_playSynthVoice_row2(this1, ixTD123, swPause,swNewVoice) {
 		 
 	     var txt1 = "",
 	         txt2 = "";
-			 
+
+		//console.log("3 onclick_tts_playSynthVoice_row2()"); 	
+		
 		 if (tr1.id.substr(0,5) == "idtr_") {
 				var numId= tr1.id.substring(5);
 				var ele_txt = document.getElementById("idc_"+ numId); 
@@ -215,7 +220,8 @@ function onclick_tts_playSynthVoice_row2(this1, ixTD123, swPause,swNewVoice) {
 				if (ww2 != "") txt3 += ww2 + ". "; 
 			} 
 		 }		 
-	    
+	    //console.log("4 onclick_tts_playSynthVoice_row2()  txt3="  + txt3 ); 	
+		
 		onclick_tts_text_to_speech2(txt3, 3);
 		 
  } // end of onclick_tts_playSynthVoice_row
@@ -558,6 +564,7 @@ function onclick_tts_text_to_speech2(txt1, wh) {
         utteranceList.push(objtxt_to_speak);
     }
     objtxt_to_speak = utteranceList[0];
+	
 	//speech = objtxt_to_speak; // 1
   
 	objtxt_to_speak.onend = tts_3_speech_end_fun;

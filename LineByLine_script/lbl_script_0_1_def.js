@@ -103,9 +103,10 @@ let ele_mask_dragsub = document.getElementById("id_mask_dragsub");
 let eleTabSub = document.getElementById("id_tabSub");
 let eleTabSub_tbody = document.getElementById("id_tabSub_tbody");
 
-let selected_voice_fromBuilder = "";  //  = "en-US Microsoft David - English (United States)"; 
-let selected_lang_id           = "";  //  = selected_voice_fromBuilder.trim().substr(0,2); 
-
+let selected_voice_ix                    = 0 ;     // eg. 65 	 
+let selected_voiceName                   = "";     // eg. Microsoft David - English (United States)"; 	
+let	selected_voiceLangRegion             = "";     // eg. en-us	
+let	selected_voiceLang2                  = "";     // eg. en
 
 let selected_numVoices = 0;
 let maxNumVoices = 9999; // 9

@@ -52,7 +52,7 @@ function tts_3_getUrlData3() {
 
 //---------------------------------------------
 function tts_3_word_build_td_voices() {
-    var selected_numVoices2 = selected_numVoices; // 1;
+    var selected_numVoices2 = 1; // selected_numVoices; // 1;
     var str1 = "";
 
 
@@ -246,9 +246,24 @@ function tts_3_show_speakingVoice(objtxt_to_speak) {
 //------------------------------------
 function tts_3_set_speech_Parms(objtxt_to_speak) {
 
+	//console.log("tts_3_set_speech_Parms() lastNumVoice=" + lastNumVoice + " lang=" + listVox[lastNumVoice][0]);
+	var myVoice = listVox[lastNumVoice][1];
+	var voice_lang2 = myVoice.lang.substr(0,2); 
+	
+	//voice_lang2 = "mioerrore"; // forzo errore per testare
+	
+	if (voice_lang2 != selected_voiceLang2) {		
+		console.log("error: voice to set (" + myVoice.name + " is not of the selected language (" +  voice_lang2 + " vs " + selected_voiceLang2); 
+		console.log("lastNumVoice=" + lastNumVoice  + " listVox.length=" + listVox.length); 
+		//console.log(signalerror); 
+		tts_2_fill_the_voices(); 
+		if (lastNumVoice >= listVox.length) lastNumVoice = 0;  
+		myVoice = listVox[lastNumVoice][1];
+	}
+	
     last_objtxt_to_speak = objtxt_to_speak;
-
-    objtxt_to_speak.voice = listVox[lastNumVoice][1];
+	
+    objtxt_to_speak.voice = myVoice;
 
     tts_3_show_speakingVoice(objtxt_to_speak);
 

@@ -27,7 +27,7 @@ console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) 
  
   var sw_translation_not_wanted = false;
   var selected_voice_language = "XX,0,0"; //  language id, number of voices eg. en-GB Microsoft ...  , index of chosen voice 
-  var selected_voice_ix = 0;
+  
   //===============================
   var myVoice;
   let voices;
@@ -186,7 +186,8 @@ console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) 
       console.log("ORIG =" + builder_orig_subtitles_string);
       console.log("TRAN =" + builder_tran_subtitles_string);
 	  
-	  tts_1_get_wantedVoices_X();  	  
+	  //tts_1_get_wantedVoices_X();  	
+	  
 	  tts_9_toBeRunAfterGotVoicesPLAYER(); 
 
       return 0;
@@ -219,22 +220,23 @@ console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) 
 	}	
     return ele1.innerHTML;
   }
-  //-------------------------------------
-  
-  
+//-------------------------------------
+/*
+	let selected_voice_ix                    = 0 ;     // eg. 65 	 
+	let selected_voiceName                   = "";     // eg. Microsoft David - English (United States)"; 	
+	let	selected_voiceLangRegion             = "";     // eg. en-us	
+	let	selected_voiceLang2      
+*/  
 //-------------------------
 
 function tts_1_get_wantedVoices_X() { 
-
-	var selected_language_fromBuilder = selected_voice_language;
-	
-	console.log("selected_language_fromBuilder = " + selected_language_fromBuilder);  
-	if (selected_language_fromBuilder == "null") {
+ 
+	if (selected_voice_language == "null") {
 		language_parameters = ["xx","0","0"];  
 		selected_lang_id = "xx"; 
 		selected_numVoices=0;  	
 	} else { 	
-		language_parameters = (selected_language_fromBuilder+",,,").split(","); 
+		language_parameters = (selected_voce_language+",,,").split(","); 
 		selected_lang_id    = (language_parameters[0]+"   ").trim(); // .substr(0,2); 
 		selected_numVoices  = parseInt("0" + language_parameters[1].trim() )  ; 		
 			

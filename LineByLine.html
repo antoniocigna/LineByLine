@@ -2,7 +2,7 @@
 <!-- saved from url=(0113)file:///D:/ANTONIO/F_G/GITHUB___varie/_2023_03MARZO_04/tentativoTEXT_ONLY_ClipByClip/cbc_builder/cbc_Builder.html -->
 <html lang="en">
    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta charset="utf-8">
       <meta name="description" content="Clip By CLip - A tool to practice language comprehension by playing video/audio a clip at time with/without subtitles">
       <meta name="license" content="license MIT: you can share and modify the software, but you must include the license file">
       <meta name="author" content="Antonio Cigna">
@@ -153,19 +153,27 @@
 		.twoButts{
 			line-height:0.7; 
 		}
+		.f_blue {
+			color:blue;
+			/*background-color:yellow;*/
+		}	
+		.f_big {
+			font-size:1.2em;
+		}	
       </style>
    </head>
    <body>
 			 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
 	  <div id="page0Lang" class="onePage1"  style="display:block; border:5px solid blue;">
-         	<div id="id_h0" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
+         	<div id="id_h01" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
             <br>
-            <span  id="id_h1" style="font-size:1.2em;">Line By Line</span>
-            <br> <span id="id_h11" style="font-size:0.6em;">Antonio Cigna 2023</span>
+            <span  id="id_h1a" style="font-size:2.0em; color:blue">Line By Line</span>
+            <br> <span id="id_h11a" style="font-size:0.6em;">Antonio Cigna 2023</span>
             <div style="font-size:0.8em;" ><br>
-               <span id="m014" class="msg"><br>per migliorare la comprensione delle lingue straniere</span><br>
+			   <span style="display:none;"><span id="m141" class="msg f_blue f_big">oral comprehension</span></span>
+               <span id="m014_0" class="msg"><br>per migliorare <br> la comprensione delle lingue straniere</span><br>
                <br>
-               <span id="m015" class="msg">
+               <span id="m015_0" class="msg">
                by listening to a text <br>read line by line, word by word
                </span>
                <br><br>
@@ -173,8 +181,10 @@
          </div>
          <br><br><br><br>
 		 <div  style="text-align:center;width:100%;">
-            <b><span id="m135">Seleziona la prima voce che dovrà leggere il testo</span></b>	
-			<br><small><span id="m136">le altre voci nella stessa lingua leggeranno a turno</span></small> 
+			<label for="id_voices">
+				<b><span id="m135" class="f_blue">Seleziona la prima voce che dovra' leggere il testo</span></b>	
+				<br><small><span id="m136">le altre voci nella stessa lingua leggeranno a turno</span></small> 
+			</label> 
 			<br><br>
             <select id="id_voices" onchange="onclick_tts_get_oneLangVoice(this)">    
             </select>
@@ -189,7 +199,7 @@
 			
 			<div id="id_ext_language" style="margin-top:0.5em;"></div>
 			<br><br><br>
-			<div><button id="id1but1"  class="button" onclick="onclick_tts_langSelected()"><span id="m137">continua</span></button></div>
+			<div><button id="id1but1a"  class="button" onclick="onclick_tts_langSelected()"><span id="m137">continua</span></button></div>
 			
 			
          </div>
@@ -198,17 +208,16 @@
    
 		 <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
 	  <div id="page0" class="onePage1"  style="display:none; border:5px solid blue;">
-         	<div id="id_h0" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
+         	<div id="id_h02" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
             <br>
-            <span  id="id_h1" style="font-size:1.2em;">Line By Line</span>
-            <br> <span id="id_h11" style="font-size:0.6em;">Antonio Cigna 2023</span>
+            <span  id="id_h1b" style="font-size:1.2em; color:blue">Line By Line</span>
+            <br> <span id="id_h11b" style="font-size:0.6em;">Antonio Cigna 2023</span>
             <div style="font-size:0.8em;" ><br>
                <span id="m014_1" class="msg"><br>per migliorare la comprensione delle lingue straniere</span><br>
                <br>
                <span id="m015_1" class="msg">
                by listening to a text <br>read line by line, word by word
                </span>
-               <br><br>
             </div>
          </div>
          <br>
@@ -219,9 +228,8 @@
 				<div style="border:0px solid black;">
 				   <div style="width:100%;border:0px solid black;text-align:center;">
 					
-					  <span id="m016-1" class="msg">Incolla qui sotto il testo in 
-					  </span>
-					  <b><span id="id_laName" style="display:none;"></span></b>
+					  <b><span id="m016-1" class="msg f_blue">Incolla qui sotto il testo in </span></b>
+					  <b><span id="id_laName" class="f_big" style="display:none;"></span></b>
 				   </div>	
 				   	<br>
 				   <div style="display:flex; justify:center; width:100%;border:0px solid black;text-align:center;">
@@ -235,16 +243,14 @@
 					  </div>
 				   </div>               
 				</div>
-				<br>
-				<br>
 				<div style="width:70%;border:0px solid black;text-align:left;">
 					<div> 
-						<span id="m139" class="msg">specifica la lunghezza massima delle righe</span>  
+						<span id="m139" class="msg f_blue">specifica la lunghezza massima delle righe</span>  
 						<br>
 						<input id="id_maxLeng" type="number" value="70" max="999" style="width:3em;text-align:right;">
 					</div>
 					<br>
-					<div><button id="id1but1"  class="button" onclick="onclick_tts_getOrigTxt()">
+					<div><button id="id1but1b"  class="button" onclick="onclick_tts_getOrigTxt()">
 					<span id="m140" class="msg">continua</span></button></div>
 				</div>					
 			</div>				
@@ -253,10 +259,10 @@
 	  
 	   <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  -->
       <div id="page1" class="onePage1" style="display:none;  border:5px solid blue;">
-         <div id="id_h0" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
+         <div id="id_h03" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
             <br>
-            <span  id="id_h1" style="font-size:1.2em;">Line By Line</span>
-            <br> <span id="id_h11" style="font-size:0.6em;">Antonio Cigna 2023</span>
+            <span  id="id_h1c" style="font-size:1.2em; color:blue;">Line By Line</span>
+            <br> <span id="id_h11c" style="font-size:0.6em;">Antonio Cigna 2023</span>
             <div style="font-size:0.8em;" ><br>
                <span id="m014_2" class="msg"><br>per migliorare la comprensione delle lingue straniere</span><br>
                <br>
@@ -272,11 +278,11 @@
          <table id="id_table16" style="width:100%;border:1% solid red; border-collapse: collapse;">
             <tr>
                <th style="width:50%;border:0px solid black;text-align:center;">
-                  <span id="m138-1" class="msg">testo §1§</span>
+                  <span id="m138-1" class="msg f_blue">testo §1§</span>
 				  <span id="id_laName2" style="display:none"></span>
                </th>
                <th style="width:50%;border:0px solid black;text-align:center;">
-                  <span id="m017" class="msg">Incolla qui sotto la traduzione automatica del testo</span><br>
+                  <span id="m017" class="msg f_blue">Incolla qui sotto la traduzione automatica del testo</span><br>
                   <span id="m018" class="msg" style="font-size:0.8em;">(per ignorare la traduzione scrivi 3 puntini ...)</span>						
                </th>
             </tr>
@@ -316,8 +322,8 @@
       <div id="page2" class="onePage1"  style="display:none; border:5px solid blue;">
          	
          <div id="id_practice" style="width:100%;height:100%; border:0px solid blue;margin:0;padding:0">
-			<div id="id_h0" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
-				<span style="font-size:1.2em;">Line By Line</span>
+			<div id="id_h04" style="margin:auto; text-align:center;width:100%;    font-weight:bold;">
+				<span style="font-size:1.2em; color:blue;">Line By Line</span>
 				<br> <span style="font-size:0.6em;">Antonio Cigna 2023</span>
 			</div>
             <div  style="display:flex;justify-content: center;  width:100%;height:96%;
@@ -436,6 +442,8 @@
          </div>
       </div>
       <div id="id_msg_depot" style="display:none">  
+		 <span id="m014" class="msg"><br>per migliorare <br> la comprensione delle lingue straniere</span><br>
+         <span id="m015" class="msg">ascoltando un testo <br>letto una riga per volta, una parola per volta</span>
 		 <span id="m016">Paste the <b>§1§</b> text here below</span>
          <span id="m100">VVm100 To synchronize subtitles with speech   ZVm100></span>
          <span id="m101">VVm101 Select a group of subtitle lines ZVm101></span>
@@ -462,6 +470,7 @@
 		 <span id="m133">the translated text is missing</span>	
 		 <span id="m134">but if that's ok, write 3 dots in a row <b>§...§</b></span>  
 		 <span id="m138">§1§ text</span>
+		 
       </div>
      
       <script src="./cbc_common/cbc_MESSAGES.msg"        ></script>
@@ -489,8 +498,15 @@
       <script src="./LineByLine_script/lbl_script_8_TTS_REPLACE.js"    defer  ></script>
       <script src="./LineByLine_script/lbl_script_9_exec.js"           defer  ></script>    	  
 	  <script>
-			document.getElementById("m014_1").innerHTML = document.getElementById("m014").innerHTML; 
-			document.getElementById("m014_2").innerHTML = document.getElementById("m014").innerHTML; 
+			var msg141 = document.getElementById("m141").outerHTML; 
+			var msg14 = document.getElementById("m014").innerHTML; 
+			console.log("msg141=" + msg141 + "\nold msg014= " + msg14)
+			msg14 = msg14.replace("§oralcomprehension§",msg141);
+			console.log("new msg14= " + msg14); 
+			document.getElementById("m014_0").innerHTML = msg14;
+			document.getElementById("m014_1").innerHTML = msg14; 
+			document.getElementById("m014_2").innerHTML = msg14; 			
+			document.getElementById("m015_0").innerHTML = document.getElementById("m015").innerHTML; 
 			document.getElementById("m015_1").innerHTML = document.getElementById("m015").innerHTML; 
 			document.getElementById("m015_2").innerHTML = document.getElementById("m015").innerHTML; 
 			document.getElementById("inp_txtOrig00").value = ""; // input_prova;

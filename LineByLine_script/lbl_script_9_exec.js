@@ -12,7 +12,7 @@ var currScript = document.currentScript.src; var bar1 = currScript.lastIndexOf("
 console.log("LOADED file SCRIPT " + currScript.substring( 1+Math.max(bar1,bar2) )) ;	
 //----------------------------------------------------------------------------------------
 
-function tts_9_get_wantedVoices_from_URL_parameters() { 
+function NOT_USED_tts_9_get_wantedVoices_from_URL_parameters() { 
 
 	// eg. file:///D:/ANTONIO/ClipByClip_V2/cbc_base/cbc_player/cbc_PLAYER.html?p_title=OneLesson
 	
