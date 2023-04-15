@@ -7,23 +7,23 @@ It is possible to request the reading of any text one line at a time, one word a
   
 It has been tested on Microsoft Windows/10 with Microsoft/Edge, Google Chrome, Firefox, the software consists only of HTML files and native Javascript.
   
-The synthetic voices used can be local or remote. The largest number of voices available is offered by Microsoft Edge, while Firefox uses only the local ones. To install spoken voices on Windows:
+The synthetic voices used can be local or remote. The largest number of voices available is offered by Microsoft Edge, while Firefox uses only the local ones. 
 
-* Select Start > Settings > time & language > region & language. ...
-* Go to Preferred languages, select Add a language.
-* Under Choose a language to install, enter and select the name of the language you want to install. It is not necessary to install the entire language pack, just the speech synthesis part (about 20MB per language).
+**English Language Youtube Videos (with subtitles)**
+
+[improve listening comprehension with LineByLine free tool](https://www.youtube.com/watch?v=9_WnTauS2G0&ab_channel=AntonioCigna)
+
+[LineByLine download](https://www.youtube.com/watch?v=OenZDCMkhmY&ab_channel=AntonioCigna)
+
+[LineByLine Languages Installation on Windows](https://www.youtube.com/watch?v=A43xyQWuNDQ&ab_channel=AntonioCigna)
+
+
+**Italian Language Youtube Videos**
+
+[migliora la comprensione orale gratis con LineByLine](https://www.youtube.com/watch?v=rO73PItHDrA&ab_channel=AntonioCigna)
+
+[LineByLine scaricamento ed installazione](https://www.youtube.com/watch?v=53jrKsvOROI&ab_channel=AntonioCigna)
+
+[LineByLine installazione di una lingua su Windows](https://www.youtube.com/watch?v=3vLakaKbq2c&ab_channel=AntonioCigna)
   
-Button list:
-
-* closed book: the line is hidden so that you can listen without reading
-* open book: the line is visible
-* T: the translation is visible
-* t?: the translation is hidden
-* magnifying glass: lists all the words of the line, so that they can be considered one at a time, in this case the key with the pause icon performs the spelling.
-* Play chosen voice: always use the chosen voice
-* Play Next Voice: play all existing voices of the same language as the chosen voice in turn (first those of the same country and then all the others)
-* Play pause between words: use the last used voice, pausing between one word and another or between one letter and another.
-* Right arrow marks the start of a group of lines
-* Arrow to the left marks the end of the group, after pressing this key a new line appears before the start of the group with the keys treating the group as if it were a single line.
-
 **Antonio Cigna**
