@@ -16,6 +16,13 @@ function onclick_tts_getOrigTxt() {
 	
 	var ele_inp = document.getElementById("inp_txtOrig00");	
 	var input_text = ele_inp.value;
+	
+	if (is_srt(input_text) ) {
+		var rigaFrom, rigaTo, rigaTxt, idsrt;
+		[rigaFrom, rigaTo, rigaTxt, idsrt] = get_subtitle_strdata( input_text );
+	    input_text = rigaTxt.join("\n").trim(); 
+	} 
+	
 	var output_text;
 	var maxRowLen = document.getElementById("id_maxLeng").value; 
 	if (maxRowLen < 999) { 			
@@ -24,12 +31,20 @@ function onclick_tts_getOrigTxt() {
 		output_text = input_text; 
 	}
 	
-	document.getElementById("inp_txtOrig00").value = output_text;
-	document.getElementById("txt_pagOrig").value = output_text;
+	//document.getElementById("inp_txtOrig00").value = output_text;
+	document.getElementById("txt_pagOrig").value = output_text.trim();
 	document.getElementById("page0").style.display = "none"; 
 	document.getElementById("page1").style.display = "block"; 
-} 
+	
+	function is_srt(input_text1) {
+		var numsrt = ( input_text1.replace("- ->", "-->").replace(" -> ", " --> ").replace("-- >", "-->") ).indexOf(" --> "); 
+		return ( numsrt > 0); 
+	}	
+	
+} // end of onclick_tts_getOrigTxt()
+
 //-------------
+
 function onclick_tts_get_oneLangVoice(this1) {
 	
 	/**
